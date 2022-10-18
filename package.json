@@ -1,0 +1,19 @@
+{
+  "name": "SailCMS",
+  "version": "0.0.1",
+  "description": "PHP CMS focusing on Performance, Developer Experience and Extensibility",
+  "main": "index.js",
+  "authors": {
+    "name": "Marc Giroux",
+    "email": "marc@leeroy.ca"
+  },
+  "repository": "/SailCMS",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
