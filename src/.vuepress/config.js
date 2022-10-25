@@ -134,7 +134,7 @@ module.exports = {
         title: 'Users',
         path: '/users/meta',
         collapsable: false,
-        sidebarDepth: 1,
+        sidebarDepth: 2,
         children: [
           '/users/meta'
         ]

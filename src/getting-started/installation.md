@@ -1,7 +1,7 @@
 # Installation and Update
 
 We have worked hard to make sure the installation process is as smooth as possible. This is why SailCMS 3
-has been built in 2 parts. The Core project is a composer library, we'll get to what this means in minute. 
+has been built in 2 parts. The Core project is a composer library, we'll get to what this means in a minute. 
 The other part is what we call "userland" where you build your application without having the structure
 of the cms in your way.
 
@@ -26,5 +26,5 @@ the welcome page, you are ready to go.
 To update sail, it's as easy as using the very familiar
 
 ```shell
-composer upgrade
+composer update
 ```
