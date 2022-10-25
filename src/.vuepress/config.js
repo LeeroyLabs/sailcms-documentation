@@ -66,7 +66,8 @@ module.exports = {
           '/working-with-sail/cli',
           '/working-with-sail/io',
           '/working-with-sail/emails',
-          '/working-with-sail/sessions'
+          '/working-with-sail/sessions',
+          '/working-with-sail/text'
         ]
       },
       {
@@ -87,7 +88,8 @@ module.exports = {
           children: [
               '/security/two-factor',
               '/security/inputs',
-              '/security/encryption'
+              '/security/encryption',
+              '/security/csrf'
           ]
       },
       {
@@ -127,7 +129,16 @@ module.exports = {
         path: '/search/',
         collapsable: false,
         sidebarDepth: 2
-      }
+      },
+      {
+        title: 'Users',
+        path: '/users/meta',
+        collapsable: false,
+        sidebarDepth: 1,
+        children: [
+          '/users/meta'
+        ]
+      },
     ]
   },
   /**

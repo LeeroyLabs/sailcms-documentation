@@ -11,163 +11,60 @@ When using graphql, you must use the POST method on the `/graphql` URL.
 Unlike the other ways to get content out of Sail, GraphQL __does not__ use the Request/Response mechanism. Whatever you do
 in your controller method, return a raw value like string, integer, array, etc.
 
-## Types & GraphQL Types
+## Defining your custom schema parts
 
-Since everything in GraphQL is typed, you must use the system types and define your own types. Sail provides the basics
-for the root types and all types for what SailCMS provides in terms of database content.
+SailCMS comes with a bunch of ready-made queries, mutations, types and resolvers. But you can add your own with ease. When
+you create a container or module, you get a `Graphql` folder with 3 files already created. Those files are `queries.graphql`,
+`mutations.graphql` and `types.graphql`. Within each file is where you define your graphql schema.
 
-All of the root types offer required or optional formats depending on the call you make. They all work the same. You
-only need to provide `true` to the method to get it as optional. Providing false or nothing will return a required formatted
-type.
+#### NOTE
+You must not wrap your queries and mutations in their parent `type Query` and `type Mutation`. This will be
+done for you.
 
-### ID
+Once you have defined your queries and mutations, you need to bind them with their php counterpart.
 
-This is a string but that indicates clearly that it represents an id.
-
-```php
-// Required
-SailCMS\GraphQL\Types::ID();
-
-// Optional
-SailCMS\GraphQL\Types::ID(true);
-```
-
-### String
-
-Standard string.
-
-```php
-// Required
-SailCMS\GraphQL\Types::string();
-
-// Optional
-SailCMS\GraphQL\Types::string(true);
-```
-
-### Int
-
-Standard integer number.
-
-```php
-// Required
-SailCMS\GraphQL\Types::int();
-
-// Optional
-SailCMS\GraphQL\Types::int(true);
-```
-
-### Float
-
-Standard floating decimal number.
-
-```php
-// Required
-SailCMS\GraphQL\Types::float();
-
-// Optional
-SailCMS\GraphQL\Types::float(true);
-```
-
-### Boolean
-
-Standard boolean.
-
-```php
-// Required
-SailCMS\GraphQL\Types::boolean();
-
-// Optional
-SailCMS\GraphQL\Types::boolean(true);
-```
-
-## Defining a custom type
-
-Let's say you want to implement a custom graphql type that looks like this:
+Take this schema:
 
 ```graphql
-type MyCustomType {
-    name: Locale!
-    optionalValue: String
-    requiredValue: Int!
-    arrayValue: [String!]!
-} 
+mySuperCall(id: ID!): Boolean!
 ```
 
-You would implement it like this:
+In your container or module's `graphql` method, you can define something like this:
 
 ```php
-use GraphQL\Type\Definition\Type;
-use SailCMS\GraphQL\Types as GTypes;
+GraphQL::addQueryResolver('mySuperCall', MyClass::class, 'myCall');
+```
 
-public function customType(): Type
-{
-    return new ObjectType([
-        'name' => 'MyCustomType',
-        'fields' => [
-            'name'          => ['type' => Type::nonNull($this->locale())],
-            'optionalValue' => ['type' => GTypes::string(true)],
-            'requiredValue' => ['type' => GTypes::int()],
-            'arrayValue'    => ['type' => Type::listOf(Gtypes::string())],
-        ]
-    ]);
-}
+And that's it!
 
-public static function locale(): Type
+Your method's signature should look like this:
+
+```php
+public function myCall(mixed $obj, Collection $args, Context $context): bool
 {
-    return new ObjectType([
-        'name' => 'Locale',
-        'fields' => [
-            'fr' => ['type' => GTypes::string()],
-            'en' => ['type' => GTypes::string()]
-        ]
-    ]);
+    // do whatever
+
+    return true;
 }
 ```
 
-As you can see, the heavy lifting is done the basic types but is to be done by you for your custom types. This is the
-code heavy part of GraphQL in SailCMS. Unless you have very complex objects, it should not be to much work to do.
-
-## Queries
-
-Queries are all the calls that do not perform any changes to the data. You can see this as all the `GET` calls from a
-REST Api.
-
-Since GraphQL is viewed as being an outlet for you application, we recommend using a Container to add your graphql
-queries and mutations. Your container has a `graphql` method that is executed when your container is loaded.
-
-To add a query to the available queries, You can run something like the following (within your graphql method):
+If you create custom types in your queries or mutations, you need to provide a way to resolve those types. You
+can resolve them directly in your query or mutation but the performance of resolving them only when required is
+lost. To resolve on request, register a resolver to handle that job:
 
 ```php
-use SailCMS\GraphQL\Query;
-use SailCMS\GraphQL;
-
-GraphQL::addQuery(
-    Query::init(
-        'operationName',                        // name used for the query
-        [ControllerName::class, 'methodName'],  // controller and method to call
-        [],                                     // arguments if any
-        'return'                                // return type
-    )
-);
+GraphQL::addResolver('YourType', YourClass::class, 'yourResolverMethod');
 ```
 
-Here is a real example of this method in use
+Your php code for this resolver would look something like this:
 
 ```php
-use SailCMS\GraphQL\Query;
-use SailCMS\GraphQL;
+public function resolver(mixed $obj, Collection $args, Context $context, ResolveInfo $info): mixed
+{
+    if ($info->fieldName === 'name') {
+        return $obj->name->toSimple();
+    }
 
-GraphQL::addQuery(
-    Query::init(
-        'user', 
-        [UserGraphqlController::class, 'getUser'], 
-        ['id' => GTypes::string()], 
-        Types::user()
-    )
-);
+    return $obj->{$info->fieldName};
+}
 ```
-
-The previous example will add the `user` query that expected an argument of type string called `id` to be passed. It will
-return a type `User`. In this case `User` is nullable since the call might not find a user for the id.
-
-## Mutations
