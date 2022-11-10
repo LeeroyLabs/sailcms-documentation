@@ -13,3 +13,11 @@ $this->request->get('other_key');
 
 These are sanitized by default, so you don't have to worry about this security risk. On the other hand, if you need to
 a raw value, you ca pass `true` as a second argument to those methods, this will skip the filtering system.
+
+An very useful third argument can be used to provide a default value if the variable you are looking for is not set or null.
+
+```php
+$this->request->post('the_key', false, []);
+```
+
+This would set the value to an empty array if the `the_key` is not set or null.

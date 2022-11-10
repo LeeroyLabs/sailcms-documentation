@@ -9,6 +9,7 @@ module.exports = {
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
   description: description,
+  dest: './dist',
 
   /**
    * Extra tags to be injected to the page HTML `<head>`
@@ -64,10 +65,14 @@ module.exports = {
           '/working-with-sail/routing',
           '/working-with-sail/modules',
           '/working-with-sail/cli',
+          '/working-with-sail/database-models',
+          '/working-with-sail/roles-acl',
           '/working-with-sail/io',
           '/working-with-sail/emails',
           '/working-with-sail/sessions',
-          '/working-with-sail/text'
+          '/working-with-sail/text',
+          '/working-with-sail/collections',
+          '/working-with-sail/assets'
         ]
       },
       {
@@ -97,32 +102,12 @@ module.exports = {
         path: '/templating/',
         collapsable: false,
         sidebarDepth: 2,
-        // children: [
-        //   '/working-with-sail/errors-and-debugging',
-        //   '/working-with-sail/containers',
-        //   '/working-with-sail/routing',
-        //   '/working-with-sail/modules',
-        //   '/working-with-sail/io',
-        //   '/working-with-sail/request-response',
-        //   '/working-with-sail/graphql',
-        //   '/working-with-sail/rest'
-        // ]
       },
       {
         title: 'Middleware',
         path: '/middleware/',
         collapsable: false,
         sidebarDepth: 2,
-        // children: [
-        //   '/working-with-sail/errors-and-debugging',
-        //   '/working-with-sail/containers',
-        //   '/working-with-sail/routing',
-        //   '/working-with-sail/modules',
-        //   '/working-with-sail/io',
-        //   '/working-with-sail/request-response',
-        //   '/working-with-sail/graphql',
-        //   '/working-with-sail/rest'
-        // ]
       },
       {
         title: 'Search',
@@ -136,6 +121,7 @@ module.exports = {
         collapsable: false,
         sidebarDepth: 2,
         children: [
+          'users/authentication',
           '/users/meta'
         ]
       },

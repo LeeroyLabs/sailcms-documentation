@@ -52,6 +52,12 @@ This event is called right after the execution a mutation. It passes the data re
 
 ## HTTP Events
 
+TODO
+
+## Login Events
+
+TODO
+
 ## How do I Create a Middleware?
 
 To create a middleware, you must create either a container or a module. 
