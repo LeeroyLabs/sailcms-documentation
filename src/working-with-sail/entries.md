@@ -1,8 +1,13 @@
 # CMS
 
-SailCMS comes with models to help to structure your page contents.
+SailCMS comes with models to help to structure your page contents. 
+The models are the `Entry`, `EntryType` and the `EntryTypeLayout`.
 
 ## Entry Type
+
+The entry type is used to regroup the entries into the same type and in the same way,
+to define the tables in the databases. Thereby, the entries of a blog type would be located
+in the `blogs` table of the database.
 
 An entry type is formed with a `title`, a `handle` and an `url_prefix`. 
 The `handle` is use to get the instance or to get the related Entry model. 
@@ -34,7 +39,7 @@ You can also assign an `entry type layout` to an entry type. (TODO)
 
 ### Utilities
 
-Here is a list of utilities to help you work with entry type
+Here is a list of utility notes to help you work with entry type.
 
 #### Get Entry Model By Handle
 
@@ -49,3 +54,23 @@ So, if you want to get a model instance from an entry type, use this method:
 ```php
 $entryModel = EntryType::getEntryModelByHandle('test');
 ```
+
+#### CRUD Methods
+
+The `createOne`, `updateByHandle` and `hardDelete` methods are all write protected with the Sail permissions system's.
+
+When you update the `url_prefix` of an entry type, all urls of the related entries will be updated.
+Also, when you delete an entry type an EntryException could be raised if there is existing related entries. 
+
+The `getAll`, `getDefaultType` and `getEntryModelByHandle` public static methods are all read protected as well as
+the `getEntryModel`, `getById` and `getByHandle` public methods.
+
+The group of permission for the entry type is `entrytype` and stored in a class constant named `EntryType::ACL_HANDLE`.
+
+## Entry
+
+An entry is used to store content of a page for your site. It can be the homepage, blogs, orphan pages.
+
+An entry have a `locale`, a `site_id` and an `alternates` fields to localized your entries. 
+In the alternate field, you can set the related versions of your entry to generate easily the language switcher in your pages.
+
