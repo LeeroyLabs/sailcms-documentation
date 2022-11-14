@@ -69,8 +69,28 @@ The group of permission for the entry type is `entrytype` and stored in a class 
 
 ## Entry
 
-An entry is used to store content of a page for your site. It can be the homepage, blogs, orphan pages.
+An entry is used to store content of a page for your site. 
+By example, it can be the homepage, blogs, orphan pages, etc.
 
-An entry have a `locale`, a `site_id` and an `alternates` fields to localized your entries. 
+An entry have a `locale`, a `site_id` and an `alternates` attributes to localized your entries. 
 In the alternate field, you can set the related versions of your entry to generate easily the language switcher in your pages.
 
+It's possible to structure your entries with the `parent` attribute. 
+This field takes an `EntryParent`, that needs a `type_handle` and `parent_id` attribute.
+So, you can class all your entries in your site regardless of the type.
+
+An entry has three different possible status `live`, `inactive` or `trash`. 
+This way it's possible to make soft delete of entries. 
+
+> **Warning** The status cannot be set to `trash` in the update method, you must use the delete method to do that.
+
+For the contents fields, we have `title`, `slug`, `categories` and `content` attributes.
+The slug can be *null* and it will be generated with the title of the entry. 
+There is also a validation done on the slug to be sure that there is no other entry with the same value.
+Automatically, we increment the slug with a number just to be sure that there are unique.
+TODO category. 
+TODO content.
+
+The two last attributes - `authors` and `dates` - are automatically sets when creating, updating and deleting an entry.
+These attributes are useful to retrieve information about the life of your entry: 
+when it was created and by whom, who and when it was deleted, etc.
