@@ -1,7 +1,6 @@
 # Metadata
 
-⚠️ __THIS IS AN ADVANCED SUBJECT__ ⚠️
-
+>️ **Warning** __THIS IS AN ADVANCED SUBJECT__
 
 
 User metadata is way to have user records to expand depending on project requirements. SailCMS offers a way to do this without too much headaches.

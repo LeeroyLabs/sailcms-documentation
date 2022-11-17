@@ -5,6 +5,12 @@ treatment. You can easily transform them to fit whatever you need. You can also 
 
 These transforms are performed only once, it serves as a caching mechanism.
 
+## Special Note
+
+SailCMS offers multisite support. Every content and category belongs to each site, but not assets. Other cms solutions
+have assets belong to a specific site or optionally ge global. With experience, we found that users get very confused
+about that concept. in SailCMS, assets are global elements. Every site can use an asset.
+
 ## Note on uploads
 __All uploads must be transferred as base64 string__. This is because it's easier to manage within a bi-api formatted system
 (Rest API, GraphQL).

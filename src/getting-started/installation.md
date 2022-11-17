@@ -8,7 +8,7 @@ of the cms in your way.
 ## install Sail using composer
 
 ```shell
-composer create-project leeroy/cms
+composer create-project leeroy/sailcms-app <yourfoldername>
 ```
 
 This will install the `userland` part and the cms itself. From there you can run the installation 

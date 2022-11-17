@@ -3,10 +3,53 @@
 SailCMS uses [MongoDB](https://www.mongodb.com) for database. It provides a very smooth experience to create models and
 work with the database.
 
+## Connecting
+
+By default, in your `.env` file, you have a `DATABASE_DSN`. This is where you put your mongodb dsn string. But one thing
+that is very cool, is that if for some reason, you need to connect to more than one database. SailCMS offers multi database
+support. You can see this as a very low cost way to scale your database if needed.
+
+To connect to multiple sources, simply use multiple `DATABASE_DSN` by given them ids, like so:
+
+```dotenv
+DATABASE_DSN=mongodb://...
+DATABASE_DSN_2=mongodb://...
+```
+
+The main DSN should never have a number. By providing 0 by your model, the default DSN is selected.
+
+What is awesome from that feature is that, this connection selection is done at the model level. That means all non-cms
+related models can be stored on another database! To do database selection, you must implement your own `__construct` on
+your model, something like this:
+
+```php
+class YourModel extends Model
+{
+    public function __construct(string $collection = '')
+    {
+        // Here, 0 = DATABASE_DSN
+        // parent::__construct($collection, 0);
+        
+        // Here, 2 = DATABASE_DSN_2
+        parent::__construct($collection, 2);
+    }
+}
+```
+
+You can always not implement your own constructor, but you will have to instantiate your models the long way like:
+
+```php
+$model = new YourModel('', 2); // for DATABASE_DSN_2
+```
+
+Easy enough, we suggest using the constructor.
+
+## First steps
+
 To create your first model, use the CLI:
 
 ```bash
-php sail create:model <module_or_container> <container_name_or_module_name> <model_name>
+php sail create:model <module_or_container> <container_or_module_name> <model_name>
 ```
 
 So for example:
@@ -160,6 +203,21 @@ optional in case a value would be null.
 
 This feature, unlike mongoose, does not support nested population.
 
+## Caching
+
+SailCMS offers fully-managed caching using Redis within models. This means that if you provide a key and optionally a
+time to live, the model system will read/write to cache if it's active. To use caching, simply define your key in the 
+exec method.
+
+```php
+$this->find([...])->exec('mySpecialKey', Cache::TTL_MONTH);
+```
+
+By default, if no TTL given, `Cache::TTL_WEEK` will be used.
+
+A thing to note is that model and list of models when returning from cache use what we call `CastBack` which casts the
+value of the model (json) back to it's original model so you don't have to.
+
 ## processOnFetch and processOnStore
 
 These two optional methods are overridable for you to provide more context to custom data types. For example, let's say
@@ -251,6 +309,28 @@ But you can also use any of mongodb's update operators (ex: `$push`, `$pull`, et
 Like updates, SailCMS supports `deleteMany`, `deleteOne` and `deleteById`.
 
 Delete methods return the number of records affected by the operation.
+
+## Bulk Operations
+
+SailCMS has support for MongoDB's `bulkWrite` command. This enables high effiency and performance when you have bulk
+of data to update. This is preferred to the writing as many times as the number of records you are updating methodology.
+Here is an example of a bulkwrite for updating records.
+
+```php
+foreach ($loopEl as $num => $loop) {
+    $ops = [
+        'updateOne' => [
+            ['_id' => $loop->_id],
+            ['$set' => ['value' => ($num + 1)]]
+        ]
+    ];
+}
+
+$this->bulkWrite($ops);
+```
+
+This loops through records to build an array of operations to perform, once we are ready, we perform only 1 database 
+operation. This will always be more efficient than doing 1 operation per record.
 
 ## Adding indexes using code
 

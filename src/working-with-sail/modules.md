@@ -52,8 +52,8 @@ Once that is done, you can access your module instance using the `Register` clas
 are using `moduleName`:
 
 ```php
-    $module = Register::getModule('moduleName');
-    $module->yourCall();
+$module = Register::module('moduleName');
+$module->yourCall();
 ```
-This way you get the same instance of your module every time you run `Register::getModule`. You can always create
+This way you get the same instance of your module every time you run `Register::module`. You can always create
 new instances by instantiating the module manually.
