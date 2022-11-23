@@ -1,7 +1,7 @@
 # CMS
 
 SailCMS comes with models to help to structure your page contents. 
-The models are the `Entry`, `EntryType` and the `EntryTypeLayout`.
+The models are the `Entry`, `EntryType` and the `EntryLayout`.
 
 ## Entry Type
 
@@ -39,7 +39,7 @@ You can also assign an `entry type layout` to an entry type. (TODO)
 
 ### Utilities
 
-Here is a list of utility notes to help you work with entry type.
+Here is a list of utility notes to help you work with entry types.
 
 #### Get Entry Model By Handle
 
@@ -87,10 +87,19 @@ This way it's possible to make soft delete of entries.
 For the contents fields, we have `title`, `slug`, `categories` and `content` attributes.
 The slug can be *null* and it will be generated with the title of the entry. 
 There is also a validation done on the slug to be sure that there is no other entry with the same value.
-Automatically, we increment the slug with a number just to be sure that there are unique.
-TODO category. 
-TODO content.
+Automatically, we increment the slug with a number just to be sure that there are unique.  
+TODO category.  
+TODO content.  
 
 The two last attributes - `authors` and `dates` - are automatically sets when creating, updating and deleting an entry.
 These attributes are useful to retrieve information about the life of your entry: 
 when it was created and by whom, who and when it was deleted, etc.
+
+### Utilities
+
+Here is a list of utility notes to help you work with entries.
+
+#### Homepage usage
+
+The homepage is automatically stored in the configs table when you creating, updating or deleting an entry.
+To retrieve the homepage you should use `Entry::getHomepage()` with your site id.
