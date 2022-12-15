@@ -55,17 +55,17 @@ The default handle cannot be changed
 ```php
 use SailCMS\Assets\Transformer;
 
-$config = [
+return [
     'dev' => [
         ...
         'entry' => [
             'defaultType' => [
                 'title' => 'Page',
-                'url_prefix' => [
+                'urlPrefix' => [
                     'en' => '',
                     'fr' => ''
                 ]
-                'entry_layout_id' => null 
+                'entryLayoutId' => null 
             ]
         ]
     ...
