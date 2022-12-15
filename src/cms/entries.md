@@ -65,7 +65,7 @@ return [
                     'en' => '',
                     'fr' => ''
                 ]
-                'entryLayoutId' => null 
+                'entryLayoutId' => false 
             ]
         ]
     ...
