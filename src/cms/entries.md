@@ -9,7 +9,7 @@ The entry type is used to regroup the entries into the same type and in the same
 to define the tables in the databases. Thereby, the entries of a blog type would be located
 in the `blogs` table of the database.
 
-An entry type is formed with a `title`, a `handle`, an `url_prefix` and a `entry_layouy_id`. 
+An entry type is formed with a `title`, a `handle`, an `url_prefix` and a `entry_layout_id`. 
 The `handle` is used to get the instance or to get the related Entry model. 
 
 Here is a list of reserved words that are not allowed to create an Entry Type:
