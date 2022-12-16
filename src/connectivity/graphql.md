@@ -68,3 +68,8 @@ public function resolver(mixed $obj, Collection $args, Context $context, Resolve
     return $obj->{$info->fieldName};
 }
 ```
+
+## Getting ready for production
+
+When you are ready to go to production, you must not forget to compile your GraphQL Schema. The reason you have to do that
+is for performance. Compiling it will build an AST and make it a lot more performant on production environments.
