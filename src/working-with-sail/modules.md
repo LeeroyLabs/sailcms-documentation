@@ -57,3 +57,19 @@ $module->yourCall();
 ```
 This way you get the same instance of your module every time you run `Register::module`. You can always create
 new instances by instantiating the module manually.
+
+## Checking if a container exists
+
+To check if another module (yours or third-party) exists, you can use the `Register` to check if it's there.
+
+```php
+Register::moduleExists('name');
+```
+
+You can optionally request a specific minimum version like this:
+
+```php
+Register::moduleExists('name', 1.2);
+```
+
+The register will respond true if the container exists and is at least version 1.2.

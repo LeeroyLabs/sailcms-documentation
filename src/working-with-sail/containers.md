@@ -69,3 +69,19 @@ custom code, and we cannot pre-generate it for you. You can generate a custom co
 ```bash
 php sail create:controller <containerName> <controllerName>
 ```
+
+## Checking if a container exists
+
+To check if another container (yours or third-party) exists, you can use the `Register` to check if it's there.
+
+```php
+Register::containerExists('name');
+```
+
+You can optionally request a specific minimum version like this:
+
+```php
+Register::containerExists('name', 1.2);
+```
+
+The register will respond true if the container exists and is at least version 1.2.
