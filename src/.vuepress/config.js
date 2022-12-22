@@ -47,7 +47,7 @@ module.exports = {
             {
                 title: 'Getting Started',
                 path: '/getting-started/',
-                collapsable: false,
+                collapsable: true,
                 sidebarDepth: 1,
                 children: [
                     '/getting-started/',
@@ -58,7 +58,7 @@ module.exports = {
             {
                 title: 'Working with Sail',
                 path: '/working-with-sail/errors-and-debugging',
-                collapsable: false,
+                collapsable: true,
                 sidebarDepth: 1,
                 children: [
                     '/working-with-sail/request-response',
@@ -84,7 +84,7 @@ module.exports = {
             {
                 title: 'Connectivity',
                 path: '/connectivity/graphql',
-                collapsable: false,
+                collapsable: true,
                 sidebarDepth: 1,
                 children: [
                     '/connectivity/graphql',
@@ -94,7 +94,7 @@ module.exports = {
             {
                 title: 'Security',
                 path: '/security/two-factor',
-                collapsable: false,
+                collapsable: true,
                 sidebarDepth: 1,
                 children: [
                     '/security/two-factor',
@@ -106,19 +106,19 @@ module.exports = {
             {
                 title: 'Templating',
                 path: '/templating/',
-                collapsable: false,
+                collapsable: true,
                 sidebarDepth: 1
             },
             {
                 title: 'Middleware',
                 path: '/middleware/',
-                collapsable: false,
+                collapsable: true,
                 sidebarDepth: 1
             },
             {
                 title: 'CMS',
                 path: '/cms/entries',
-                collapsable: false,
+                collapsable: true,
                 sidebarDepth: 1,
                 children: [
                     '/cms/entries',
