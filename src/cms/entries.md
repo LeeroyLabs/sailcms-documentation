@@ -1,6 +1,6 @@
 # Entries
 
-SailCMS comes with models to help to structure your page contents. 
+SailCMS comes with models to help structure your page contents. 
 The models are the `Entry`, `EntryType` and the `EntryLayout`.
 
 ## Entry Type
@@ -41,34 +41,68 @@ const RESERVED_WORDS_FOR_HANDLE = [
 ];
 ```
 
+<br/>
+
 > **Warning** Once the handle is set it can't be changed.
 
-The `url_prefix`, a LocaleField, is used to form the url of the entries related to the type.
-When it is updated, all urls of entries of this modified type will be updated too.
+<br/>
 
-You can also assign an [entry layout](#entry-layout) to an entry type by passing his id. 
-
-By default, SailCMS comes with an entry type named "Page".
-If you want to change the default entry type, you can change it in the `general.php` config files.
-The default handle cannot be changed
+The `url_prefix` field is a LocaleField, an object that looks like this:
 
 ```php
-use SailCMS\Assets\Transformer;
+{
+    "fr": "Bonjour le monde!",
+    "en": "Hello World!",
+    "es": "Hola Mundo!"
+}
+```
 
-return [
-    'dev' => [
-        ...
-        'entry' => [
-            'defaultType' => [
-                'title' => 'Page',
-                'urlPrefix' => [
-                    'en' => '',
-                    'fr' => ''
-                ]
-                'entryLayoutId' => false 
+In this specific case, that object contains all versions of url prefix:
+
+```php
+{
+    "fr": "produits",
+    "en": "product",
+    "es": "productos"
+}
+```
+
+This is used to build every entry's url. It's related to the type, using the base url for that type (if any) and also
+use its parent url as the base (if any). Something like this:
+
+```
+Base is /blog 
+content would be /blog/the-title-of-your-article
+
+Parent is article hello-world, 
+content would be /blog/hello-world/update-to-the-breaking-story
+```
+
+At any point, if you change the base url or the parent's url, your content's url will be updated accordingly.
+
+You can also assign an [entry layout](#entry-layout) to an entry type by passing its id. 
+
+### Changing the default Entry Type
+
+By default, SailCMS comes with an entry type named `Page`.
+If you want to change the default entry type, you can change it in the `general.php` config files.
+__The default handle cannot be changed.__
+
+In your configuration file, look for the `defaultType` section.
+
+```php
+...
+    'entry' => [
+        'defaultType' => [
+            'title' => 'Page',
+            'urlPrefix' => [
+                'en' => '',
+                'fr' => ''
             ]
+            'entryLayoutId' => false 
         ]
-    ...
+    ]
+...
 ```
 
 ### Utilities
@@ -77,44 +111,49 @@ Here is a list of utility notes to help you work with entry types.
 
 #### Get Entry Model By Handle
 
-An entry need an Entry Type to be queried at first.
-If you create an Entry instance directly, you'll get the default entry type :
+To get the appropriate model for your Entry type, you must hint SailCMS as to what you want. For example if you simply
+instantiate the `Entry` model, like this
+
 ```php
-$entryModel = new Entry();
+$model = new Entry();
 ```
 
-So, if you want to get a model instance from an entry type, use this method:
+SailCMS will return the default type, `Page`. But if you know what type of content you want, you can use the convenience 
+method:
 
 ```php
-$entryModel = EntryType::getEntryModelByHandle('test');
+$model = EntryType::getEntryModelByHandle('your_type');
 ```
 
 #### CRUD Methods
 
-The `createOne`, `updateByHandle` and `hardDelete` methods are all write protected with the Sail permissions system's.
+The `createOne`, `updateByHandle` and `hardDelete` methods are all write protected with the Sail ACL system.
 
-When you update the `url_prefix` of an entry type, all urls of the related entries will be updated.
-Also, when you delete an entry type an EntryException could be raised if there is existing related entries. 
+__NOTE__: When you delete an entry type, an EntryException could be raised if there are existing related entries. 
 
 The `getAll`, `findAll`, `getDefaultType` and `getEntryModelByHandle` public static methods are all read protected as well as
 the `getEntryModel`, `getById` and `getByHandle` public methods. 
-However, the `getAll`, `getDefaultType` and `getEntryModelByHandle` has a parameter ($api) to set to true to be protected.
 
+Howver, the `getAll`, `getDefaultType` and `getEntryModelByHandle` methods have a special parameter to enable the read protection
+in case it is required. It's called `api` and is a boolean.
 
-The group of permission for the entry type is `entrytype` and stored in a class constant named `EntryType::ACL_HANDLE`.
+The group of permission for the entry type is `entrytype`.
 
 
 ## Entry Layout
 
-The entry layout is a structure that helps to set and validate the contents of your entries.
+an Entry Layout is a structure that sets and validates the content set in the entries that are using it.
 
 It has `titles`, `authors`, `dates`, `is_trashed` and `schema` properties.
-The `titles` properties are the title of entry layout for the display in the admin panel.
-Like entry `authors` and `dates` are automatically sets when create, update and deleting an entry layout.
-The `is_trashed` is obviously used in the delete method when it's a soft delete.
 
-The `schema` properties in the structure of an entry content. 
-The schema is a Collection of model fields that contains one or mode type fields and their settings.
+The `titles` property is the title of the layout that is used to display the name of it in the admin panel.
+
+`authors` and `dates` are set automatically when you create/update/delete an entry layout.
+
+The `is_trashed` property is an indicator if the layout has been deleted. This of course is a soft delete. A hard delete
+would remove it from the database forever.
+
+The `schema` property is a representation of the available fields and their configurations for the specific layout.
 
 > To fully understand the schema field components, check the [Fields page](/cms/fields).
 
@@ -125,19 +164,30 @@ Here is a list of utility notes to help you work with entry layouts.
 #### Generate Layout Schema
 
 The `generateLayoutSchema` static method is the best way to generate the schema for an entry layout.
-You simply pass a list of model fields instance with a key to reuse it in the entry content.
+You simply pass a list of base field instances with a key to reuse it in the entry content.
 
 ```php
-$textField = new TextField($labels, [
-    ['required' => true,],
-]);
-
 $schema = EntryLayout::generateLayoutSchema(new Collection([
-    'title' => $textField
+    'title' => new TextField($labels, [['required' => true])
 ]));
 ```
 
-The schema return by that will be perfect to create or update an entry layout.
+This method is the basis of all create/update of layouts. Once this is executed, you can create or update a layout
+
+```php
+$layout = new EntryLayout();
+
+$schema = EntryLayout::generateLayoutSchema(new Collection([
+    'title' => new TextField($labels, [['required' => true])
+]));
+
+$layout->create((object)[
+    'fr' => 'nom du layout', 
+    'en' => 'name of layout'
+], $schema);
+```
+
+This will create a new Layout with the given schema.
 
 #### Update schema config
 
@@ -146,61 +196,66 @@ You just need to pass a `fieldKey`, the setting to update, a `fieldIndex` and if
 
 ```php
 $entryLayout->updateSchemaConfig('title', [
-        'max_length' => 255,
-        'min_length' => 10
-    ], 0, new LocaleField([
-        'fr' => 'Titre de section',
-        'en' => 'Section title'
-    ]));
+    'max_length' => 255,
+    'min_length' => 10
+], 0, new LocaleField([
+    'fr' => 'Titre de section',
+    'en' => 'Section title'
+]));
 ```
 
 #### Update schema key
 
 Like the `updateSchemaConfig`, this public method is really useful to modify the schema. 
-But now, it's to modify a key in the schem and it only need the `key` and a `newKey`.
+But now, it's to modify a key in the schema and it only needs the `key` and a `newKey`.
 
 ```php
-// The key will become subtitle
+// title will become subtitle
 $entryLayout->updateSchemaKey('title', 'subtitle');
 ```
 
-Obviously, all entry contents for each entry type will be updated in the same call.
+All entries that use this layout will be updated accordingly.
 
 #### CRUD methods
 
-The `create`, `updateById`, `updateSchemaKey` and `delete` methods are all write protected with Sail permissions system's.
-
-The `getAll` and `one` public method read protected as well.
+The `create`, `updateById`, `updateSchemaKey` and `delete` methods are all write protected with the Sail ACL system.
+On the other-hand, the `getAll` and `one` public methods are read protected.
 
 ## Entry
 
-An entry is used to store content of a page for your site. 
-By example, it can be the homepage, blogs, orphan pages, etc.
+An entry is used to store data for a piece of content in your application. We do not refer your content to pages because
+SailCMS can be used to create things like one-off pages like contact or pages, blog articles, product pages or any other
+type of content your application needs. It can handle anything that has content or media.
 
-An entry have a `locale`, a `site_id` and an `alternates` properties to localized your entries. 
-In the alternate field, you can set the related versions of your entry to generate easily the language switcher in your pages 
-and the canonical urls.
+All entries have a `locale`. `site_id` and `alternats` properties to localized your them. 
+In the alternate field, contains the alternate entry ids for the same content, this way, you can easily refer to the
+alternate content, with something like a language switcher, without having to do any more work.
 
 It's possible to structure your entries with the `parent` attribute. 
 This field takes an `EntryParent`, that needs a `type_handle` and `parent_id` attribute.
-So, you can class all your entries in your site regardless of the type.
+
+So, you can organize all your entries in your site regardless of the type.
 
 An entry has three different possible status `live`, `inactive` or `trash`. 
-This way it's possible to make soft delete of entries. 
+That means that when the status is set to `trash`, this is what we call `soft delete`. The content is trashed to the cms
+and will not respond to user accessing the url. But in reality, the content still exists in case you ever change your mind.
 
 > **Warning** The status cannot be set to `trash` in the update method, you must use the delete method to do that.
 
-For the contents fields, we have `title`, `slug`, `categories` and `content` attributes.
+For content fields, they have `title`, `slug`, `categories` and `content` properties.
 
-The slug can be *null* and it will be generated with the title of the entry. 
-There is also a validation done on the slug to be sure that there is no other entry with the same value.
-Automatically, we increment the slug with a number just to be sure that there are unique.  
+If the slug is set to `null`, Sail will generate one out of the title. There is also a validation performed on the slug 
+to make sure that there is no duplicates. If there is ever a duplicate, we will increment a value and add it to the end
+of the slug. For example, if `my-page` already exists, Sail will set `my-page-2`.
 
-The `categories` id are simply regrouped in a Collection that is used to filter the list of entries. 
+The `categories` is a list of ids that is used to filter the list of entries. 
 
 The `content` is linked to the [Entry Layout](#entry-layout) with a key and a simple object with a `handle`, `type` and the `content`.
+
 The `handle` is related to the [Model Field](/cms/fields#model-field) and helps to validate the content as well as the `type` value.
+
 The `type` is issued from an enum named "StoringType":
+
 ```php
 enum StoringType: string
 {
@@ -213,9 +268,9 @@ enum StoringType: string
 ```
 Then, the `content` is sets accordingly to the `type`.
 
-The two last attributes - `authors` and `dates` - are automatically sets when creating, updating and deleting an entry.
-These attributes are useful to retrieve information about the life of your entry: 
-when it was created and by whom, who and when it was deleted, etc.
+The two last attributes - `authors` and `dates` - are automatically sets when creating/updating/deleting an entry.
+These attributes are useful to retrieve information about the entry's editing history. It will tell you who created it,
+when he created it, when it was changed or deleted, etc.
 
 ### Utilities
 
@@ -225,17 +280,19 @@ Here is a list of utility notes to help you work with entries.
 
 The homepage is automatically stored in the configs table when you are creating, updating or deleting an entry.
 To retrieve the homepage you should use `Entry::getHomepage()` with your site id and your locale. 
-In the `create` and `updateById` methods, if the flag `isHomepage` is changed the configs will be updated accordingly. 
+In the `create` and `updateById` methods, if the flag `isHomepage` is changed the settings will be updated accordingly. 
 
 #### CRUD Methods
 
-The `create`, `updateById` and `delete` methods are all write protected with the Sail permissions system's.
+The `create`, `updateById` and `delete` methods are all write protected with the Sail ACL system.
 
-As it was said before, the homepage config is updated each time the `isHomepage` flag is used
-as well as if you delete an entries with the `isHomepage` at *true*.
+As mentioned before, the homepage setting is updated each time the `isHomepage` flag is provided in the update
+as well as if you delete an entry with the `isHomepage` set to *true*.
 
-The `one`, `getCount`, `all` and `countEntries` public methods are not read protected because the entries are the content of a site.
+The `one`, `getCount`, `all` and `countEntries` public methods are not read protected because the entries are the public 
+content of the application.
 
 These getter methods will only search on the Entry Type that is joined to the Entry constructor, not on all types.
 
-The `findByUrl` and `findByCategoryId` static methods are not protected as well and on contrary will search in all entry types.
+The `findByUrl` and `findByCategoryId` static methods are also public and opposite to the getter methods, this will search
+in all entry types.

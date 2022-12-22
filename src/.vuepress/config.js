@@ -117,10 +117,12 @@ module.exports = {
             },
             {
                 title: 'CMS',
-                path: '/cms/',
+                path: '/cms/entries',
                 collapsable: false,
                 sidebarDepth: 1,
                 children: [
+                    '/cms/entries',
+                    '/cms/fields',
                     '/cms/categories',
                     '/cms/users/',
                     '/cms/users/authentication',
