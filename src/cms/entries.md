@@ -12,7 +12,7 @@ in the `blogs` table of the database.
 An entry type is formed with a `title`, a `handle`, an `url_prefix` and a `entry_layout_id`. 
 The `handle` is used to get the instance or to get the related Entry model. 
 
-Here is a list of reserved words that are not allowed to create an Entry Type:
+This is the list of reserved words that are not allowed to create an Entry Type:
 
 ```php
 const RESERVED_WORDS_FOR_HANDLE = [
@@ -167,8 +167,15 @@ The `generateLayoutSchema` static method is the best way to generate the schema 
 You simply pass a list of base field instances with a key to reuse it in the entry content.
 
 ```php
+$textField = new TextField((object)[
+    'fr' => 'Titre', 
+    'en' => 'Title'
+], [
+    ['required' => true,],
+]);
+
 $schema = EntryLayout::generateLayoutSchema(new Collection([
-    'title' => new TextField($labels, [['required' => true])
+    'title' => $textField
 ]));
 ```
 
@@ -177,8 +184,15 @@ This method is the basis of all create/update of layouts. Once this is executed,
 ```php
 $layout = new EntryLayout();
 
+$textField = new TextField((object)[
+    'fr' => 'Titre', 
+    'en' => 'Title'
+], [
+    ['required' => true,],
+]);
+
 $schema = EntryLayout::generateLayoutSchema(new Collection([
-    'title' => new TextField($labels, [['required' => true])
+    'title' => $textField
 ]));
 
 $layout->create((object)[
@@ -280,7 +294,7 @@ Here is a list of utility notes to help you work with entries.
 
 The homepage is automatically stored in the configs table when you are creating, updating or deleting an entry.
 To retrieve the homepage you should use `Entry::getHomepage()` with your site id and your locale. 
-In the `create` and `updateById` methods, if the flag `isHomepage` is changed the settings will be updated accordingly. 
+In the `create` and `updateById` methods, if the `isHomepage`, `locale` or `siteid` fields are changed the homepage settings will be updated accordingly. 
 
 #### CRUD Methods
 
