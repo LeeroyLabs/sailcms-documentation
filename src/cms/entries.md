@@ -43,7 +43,8 @@ const RESERVED_WORDS_FOR_HANDLE = [
 
 <br/>
 
-> **Warning** Once the handle is set it can't be changed.
+> **Warning**  
+> Once the handle is set it can't be changed.
 
 <br/>
 
@@ -129,12 +130,13 @@ $model = EntryType::getEntryModelByHandle('your_type');
 
 The `createOne`, `updateByHandle` and `hardDelete` methods are all write protected with the Sail ACL system.
 
-__NOTE__: When you delete an entry type, an EntryException could be raised if there are existing related entries. 
+> **Note**  
+> When you delete an entry type, an EntryException could be raised if there are existing related entries. 
 
 The `getAll`, `findAll`, `getDefaultType` and `getEntryModelByHandle` public static methods are all read protected as well as
 the `getEntryModel`, `getById` and `getByHandle` public methods. 
 
-Howver, the `getAll`, `getDefaultType` and `getEntryModelByHandle` methods have a special parameter to enable the read protection
+However, the `getAll`, `getDefaultType` and `getEntryModelByHandle` methods have a special parameter to enable the read protection
 in case it is required. It's called `api` and is a boolean.
 
 The group of permission for the entry type is `entrytype`.
@@ -155,7 +157,8 @@ would remove it from the database forever.
 
 The `schema` property is a representation of the available fields and their configurations for the specific layout.
 
-> To fully understand the schema field components, check the [Fields page](/cms/fields).
+> **Note**  
+> To have a better understanding of the schema field components, check the [Fields page](/cms/fields).
 
 ### Utilities
 
@@ -254,7 +257,8 @@ An entry has three different possible status `live`, `inactive` or `trash`.
 That means that when the status is set to `trash`, this is what we call `soft delete`. The content is trashed to the cms
 and will not respond to user accessing the url. But in reality, the content still exists in case you ever change your mind.
 
-> **Warning** The status cannot be set to `trash` in the update method, you must use the delete method to do that.
+> **Warning**  
+> The status cannot be set to `trash` in the update method, you must use the delete method to do that.
 
 For content fields, they have `title`, `slug`, `categories` and `content` properties.
 
