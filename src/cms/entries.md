@@ -268,11 +268,9 @@ of the slug. For example, if `my-page` already exists, Sail will set `my-page-2`
 
 The `categories` is a list of ids that is used to filter the list of entries. 
 
-The `content` is linked to the [Entry Layout](#entry-layout) with a key and a simple object with a `handle`, `type` and the `content`.
-
-The `handle` is related to the [Model Field](/cms/fields#model-field) and helps to validate the content as well as the `type` value.
-
-The `type` is issued from an enum named "StoringType":
+The `content` is linked to the [Entry Layout](#entry-layout) with a key and a simple object with a `handle`, `type` and the `content` :
+- The `handle` is related to the [Model Field](/cms/fields#model-field) and helps to validate the content as well as the `type` value.
+- The `type` is issued from an enum named "StoringType".
 
 ```php
 enum StoringType: string
@@ -284,7 +282,7 @@ enum StoringType: string
     case ARRAY = 'array';
 }
 ```
-Then, the `content` is sets accordingly to the `type`.
+- Finally, the `content` could be parsed accordingly to the `type`.
 
 The two last attributes - `authors` and `dates` - are automatically sets when creating/updating/deleting an entry.
 These attributes are useful to retrieve information about the entry's editing history. It will tell you who created it,
