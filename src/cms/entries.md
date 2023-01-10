@@ -244,7 +244,7 @@ An entry is used to store data for a piece of content in your application. We do
 SailCMS can be used to create things like one-off pages like contact or pages, blog articles, product pages or any other
 type of content your application needs. It can handle anything that has content or media.
 
-All entries have a `locale`. `site_id` and `alternats` properties to localized your them. 
+All entries have a `locale`. `site_id` and `alternates` properties to localized your them. 
 In the alternate field, contains the alternate entry ids for the same content, this way, you can easily refer to the
 alternate content, with something like a language switcher, without having to do any more work.
 
@@ -260,7 +260,7 @@ and will not respond to user accessing the url. But in reality, the content stil
 > **Warning**  
 > The status cannot be set to `trash` in the update method, you must use the delete method to do that.
 
-For content fields, they have `title`, `slug`, `categories` and `content` properties.
+For content fields, they have `title`, `template`, `slug`, `categories` and `content` properties.
 
 If the slug is set to `null`, Sail will generate one out of the title. There is also a validation performed on the slug 
 to make sure that there is no duplicates. If there is ever a duplicate, we will increment a value and add it to the end

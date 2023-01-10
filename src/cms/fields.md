@@ -139,7 +139,7 @@ There is no extra validation for it.
 #### Number Field
 
 This field is for numbers in your content.
-The particularity of this field is that you can set the `precision` value in the *constructor*.
+The particularity of this field is that you can set the `precision` value in the *constructor* with the last parameter.
 ```php
 $numberFieldFloat = new NumberField(
     (object)['en' => 'Float', 'fr' => 'Flottant'], [
