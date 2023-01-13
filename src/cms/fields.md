@@ -23,7 +23,6 @@ It's used to instantiate the settings of your fields.
 > **Note**  
 > Because the `configs` property is a Collection, it allows to create data structure easily. 
 
-[//]: # (TODO NEED TO TEST THAT)
 For example, your custom field could contain different [Input Field](#input-field) to represent a block a content.
 ```php
 ...
@@ -32,7 +31,7 @@ For example, your custom field could contain different [Input Field](#input-fiel
     {
         return new Collection([
             "blockTitle" => InputTextField::defaultSettings()
-            "blockDescription" => InputTextareaField::defaultSettings()
+            "blockDescription" => InputTextareaField::defaultSettings(true)
         ]);
     }
     
@@ -61,15 +60,19 @@ There is also the `validate` method that should be created to extend the basic v
 ...
 ```
 
-[//]: # (TODO NEED TO DO THAT)
 For example, you could want that either the blockTitle or the blockDescription are required :
 ```php
 ...
 
     protected function validate(mixed $content): ?Collection
     {
-        // Nothing to validate
-        return null;
+        $errors = new Collection();
+
+        if (!$content->get('blockTitle') && !$content->get('blockDescription')) {
+            $errors->push('You must set at least blockTitle or blockDescription');
+        }
+
+        return $errors;
     }
 ...
 ```
@@ -119,7 +122,23 @@ enum StoringType: string
 }
 ```
 
-[//]: # (TODO registering fields)
+### Adding a custom fields to the list of available fields
+
+After the **SailCMS\Model\Fields\Field** class has been extended, the custom class must be added to the container via the fields methods using in `info` method :
+
+```php
+class Container extends AppContainer
+{
+    ...
+
+    public function fields(): Collection
+    {
+        return new Collection([
+            HeaderBlockField::info()
+        ]);
+    }
+}
+```
 
 ### Implemented model fields
 
