@@ -12,7 +12,7 @@ in the `blogs` table of the database.
 An entry type is formed with a `title`, a `handle`, an `url_prefix` and a `entry_layout_id`. 
 The `handle` is used to get the instance or to get the related Entry model. 
 
-Here is a list of reserved words that are not allowed to create an Entry Type:
+This is the list of reserved words that are not allowed to create an Entry Type:
 
 ```php
 const RESERVED_WORDS_FOR_HANDLE = [
@@ -43,7 +43,8 @@ const RESERVED_WORDS_FOR_HANDLE = [
 
 <br/>
 
-> **Warning** Once the handle is set it can't be changed.
+> **Warning**  
+> Once the handle is set it can't be changed.
 
 <br/>
 
@@ -129,12 +130,13 @@ $model = EntryType::getEntryModelByHandle('your_type');
 
 The `createOne`, `updateByHandle` and `hardDelete` methods are all write protected with the Sail ACL system.
 
-__NOTE__: When you delete an entry type, an EntryException could be raised if there are existing related entries. 
+> **Note**  
+> When you delete an entry type, an EntryException could be raised if there are existing related entries. 
 
 The `getAll`, `findAll`, `getDefaultType` and `getEntryModelByHandle` public static methods are all read protected as well as
 the `getEntryModel`, `getById` and `getByHandle` public methods. 
 
-Howver, the `getAll`, `getDefaultType` and `getEntryModelByHandle` methods have a special parameter to enable the read protection
+However, the `getAll`, `getDefaultType` and `getEntryModelByHandle` methods have a special parameter to enable the read protection
 in case it is required. It's called `api` and is a boolean.
 
 The group of permission for the entry type is `entrytype`.
@@ -155,7 +157,8 @@ would remove it from the database forever.
 
 The `schema` property is a representation of the available fields and their configurations for the specific layout.
 
-> To fully understand the schema field components, check the [Fields page](/cms/fields).
+> **Note**  
+> To have a better understanding of the schema field components, check the [Fields page](/cms/fields).
 
 ### Utilities
 
@@ -167,8 +170,15 @@ The `generateLayoutSchema` static method is the best way to generate the schema 
 You simply pass a list of base field instances with a key to reuse it in the entry content.
 
 ```php
+$textField = new TextField((object)[
+    'fr' => 'Titre', 
+    'en' => 'Title'
+], [
+    ['required' => true,],
+]);
+
 $schema = EntryLayout::generateLayoutSchema(new Collection([
-    'title' => new TextField($labels, [['required' => true])
+    'title' => $textField
 ]));
 ```
 
@@ -177,8 +187,15 @@ This method is the basis of all create/update of layouts. Once this is executed,
 ```php
 $layout = new EntryLayout();
 
+$textField = new TextField((object)[
+    'fr' => 'Titre', 
+    'en' => 'Title'
+], [
+    ['required' => true,],
+]);
+
 $schema = EntryLayout::generateLayoutSchema(new Collection([
-    'title' => new TextField($labels, [['required' => true])
+    'title' => $textField
 ]));
 
 $layout->create((object)[
@@ -227,7 +244,7 @@ An entry is used to store data for a piece of content in your application. We do
 SailCMS can be used to create things like one-off pages like contact or pages, blog articles, product pages or any other
 type of content your application needs. It can handle anything that has content or media.
 
-All entries have a `locale`. `site_id` and `alternats` properties to localized your them. 
+All entries have a `locale`. `site_id` and `alternates` properties to localized your them. 
 In the alternate field, contains the alternate entry ids for the same content, this way, you can easily refer to the
 alternate content, with something like a language switcher, without having to do any more work.
 
@@ -240,9 +257,10 @@ An entry has three different possible status `live`, `inactive` or `trash`.
 That means that when the status is set to `trash`, this is what we call `soft delete`. The content is trashed to the cms
 and will not respond to user accessing the url. But in reality, the content still exists in case you ever change your mind.
 
-> **Warning** The status cannot be set to `trash` in the update method, you must use the delete method to do that.
+> **Warning**  
+> The status cannot be set to `trash` in the update method, you must use the delete method to do that.
 
-For content fields, they have `title`, `slug`, `categories` and `content` properties.
+For content fields, they have `title`, `template`, `slug`, `categories` and `content` properties.
 
 If the slug is set to `null`, Sail will generate one out of the title. There is also a validation performed on the slug 
 to make sure that there is no duplicates. If there is ever a duplicate, we will increment a value and add it to the end
@@ -250,11 +268,9 @@ of the slug. For example, if `my-page` already exists, Sail will set `my-page-2`
 
 The `categories` is a list of ids that is used to filter the list of entries. 
 
-The `content` is linked to the [Entry Layout](#entry-layout) with a key and a simple object with a `handle`, `type` and the `content`.
-
-The `handle` is related to the [Model Field](/cms/fields#model-field) and helps to validate the content as well as the `type` value.
-
-The `type` is issued from an enum named "StoringType":
+The `content` is linked to the [Entry Layout](#entry-layout) with a key and a simple object with a `handle`, `type` and the `content` :
+- The `handle` is related to the [Model Field](/cms/fields#model-field) and helps to validate the content as well as the `type` value.
+- The `type` is issued from an enum named "StoringType".
 
 ```php
 enum StoringType: string
@@ -266,7 +282,7 @@ enum StoringType: string
     case ARRAY = 'array';
 }
 ```
-Then, the `content` is sets accordingly to the `type`.
+- Finally, the `content` could be parsed accordingly to the `type`.
 
 The two last attributes - `authors` and `dates` - are automatically sets when creating/updating/deleting an entry.
 These attributes are useful to retrieve information about the entry's editing history. It will tell you who created it,
@@ -280,7 +296,7 @@ Here is a list of utility notes to help you work with entries.
 
 The homepage is automatically stored in the configs table when you are creating, updating or deleting an entry.
 To retrieve the homepage you should use `Entry::getHomepage()` with your site id and your locale. 
-In the `create` and `updateById` methods, if the flag `isHomepage` is changed the settings will be updated accordingly. 
+In the `create` and `updateById` methods, if the `isHomepage`, `locale` or `siteid` fields are changed the homepage settings will be updated accordingly. 
 
 #### CRUD Methods
 
