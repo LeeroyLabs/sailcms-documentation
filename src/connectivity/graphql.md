@@ -73,3 +73,16 @@ public function resolver(mixed $obj, Collection $args, Context $context, Resolve
 
 When you are ready to go to production, you must not forget to compile your GraphQL Schema. The reason you have to do that
 is for performance. Compiling it will build an AST and make it a lot more performant on production environments.
+
+## Removing the CMS from GraphQL
+
+You can tell SailCMS to remove itself from the graphQL API and act more like a framework by setting the `hideCMS` option to `true`.
+
+```php
+'graphql' => [
+    'active' => true,
+    'trigger' => 'graphql',
+    'depthLimit' => 5,
+    'hideCMS' => true   // <-- set this to true to hide the cms from GraphQL
+]
+```

@@ -1,6 +1,6 @@
-# The Almighty CLI
+# Commander
 
-The CLI tool is a powerful tool to help you extends the system really rapidly and in a standard way. You probably need
+Commander is the name of SailCMS' CLI tool is a powerful tool to help you extends the system really rapidly and in a standard way. You probably need
 to add your own commands for things like migrations, custom scripts, cron jobs, etc. The SailCMS CLI tool is extensible
 using CLI Commands that the CLI can help you create.
 
@@ -20,13 +20,13 @@ For the sake of documentation, let's say you have added a `run:custom-cron` comm
 
 This would run your cron every night at midnight. 
 
-## Extending the CLI
+## Extending Commander
 
-The CLI is using Symfony's Console library to run. That being said, this means you have to implement a 
+Commander is using Symfony's Console library to run. That being said, this means you have to implement a 
 Symfony Console Command class. These have some specific things you can do. Please read the documentation
 about Commands [here](https://symfony.com/doc/current/console.html#creating-a-command).
 
-To create a CLI Command, you must either have a container or module existing to install it in. You can create your Command
+To create a Commander Command, you must either have a container or module existing to install it in. You can create your Command
 using the following:
 
 ```bash

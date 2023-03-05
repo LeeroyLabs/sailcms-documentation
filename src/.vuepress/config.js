@@ -52,7 +52,8 @@ module.exports = {
                 children: [
                     '/getting-started/',
                     '/getting-started/installation',
-                    '/getting-started/configuration'
+                    '/getting-started/configuration',
+                    '/getting-started/boot'
                 ]
             },
             {
@@ -63,12 +64,13 @@ module.exports = {
                 children: [
                     '/working-with-sail/request-response',
                     '/working-with-sail/errors-and-debugging',
-                    '/working-with-sail/logging',
-                    '/working-with-sail/containers',
-                    '/working-with-sail/routing',
-                    '/working-with-sail/modules',
+                    '/working-with-sail/di',
                     '/working-with-sail/cli',
-                    '/working-with-sail/database-models',
+                    '/working-with-sail/logging',
+                    '/working-with-sail/routing',
+                    '/working-with-sail/controllers',
+                    '/working-with-sail/containers',
+                    '/working-with-sail/modules',
                     '/working-with-sail/roles-acl',
                     '/working-with-sail/io',
                     '/working-with-sail/emails',
@@ -79,6 +81,17 @@ module.exports = {
                     '/working-with-sail/queue',
                     '/working-with-sail/caching',
                     '/working-with-sail/devtools'
+                ]
+            },
+            {
+                title: 'Breeze ODM',
+                path: '/breeze/odm',
+                collapsable: true,
+                sidebarDepth: 1,
+                children: [
+                    '/breeze/odm',
+                    '/breeze/activerecord',
+                    '/breeze/migrations'
                 ]
             },
             {

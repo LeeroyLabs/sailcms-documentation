@@ -99,9 +99,10 @@ the user id to check if he has the role.
 ACL::hasRole('xxxxxx', 'super-administrator');
 ```
 
-## Note for CLI
+## Note for Commander
 
-Your CLI commands are a very special citizen in SailCMS, the CLI commands do not adhere to Roles and ACLs. If you execute
-a command from the CLI, if that specific call checks for permission, you will be allowed to perform it.
+Your Commander commands are a very special citizen in SailCMS, Commander commands do not adhere to Roles and ACLs. If you execute
+a command with Commander, if that specific call checks for permission, you will be allowed to perform it because Commander
+runs as administrator.
 
-This means, be careful of what you are doing and __do not__ call cli commands you don't recognize.
+This means, be careful of what you are doing and __do not__ call Commander commands you don't recognize.

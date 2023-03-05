@@ -63,6 +63,10 @@ can add any amount of translations in your app's `config/general.php` file.
 ```php
 'emails' => [
     'from' => 'no-reply@yoursite.com',  // Email used for the "from"
+    'fromName' => [                     // Name of the sender
+        'fr' => env('MAIL_FROM_FR'),
+        'en' => env('MAIL_FROM_EN')
+    ],
     'sendNewAccount' => false,          // Send email on account creation?
     'globalContext' => [
         // You can add your own static context variables
@@ -81,16 +85,29 @@ can add any amount of translations in your app's `config/general.php` file.
 
 All variables (and locales) will be automatically processed in the template upon rendering.
 
-### Adding more variables
+### useEmail
 
-You can add your custom dynamic variables when using the email system, like so:
+The `useEmail` method is the ultimate tool for sending emails. You specify what template from the database to use, the
+language for it and whatever context data you want. In the context, you can speficy the `replacements` index and within
+that array, the keys will be replaced in email's data (subject, content, cta, cta title), that enables your emails to support
+things like `{your_variable}` with the value within the `replacements` array. Here is an example of that.
+
+It's important to know that your emails can enjoy the same power as your web templates. The email system supports Twig
+for templating.
 
 ```php
+$context = [
+    'replacements' => [
+        'my_variable' => 'Hello World!'
+    ],
+    'name' => 'Your Name'
+];
+
 $mail = new Mail();
 $mail->to($email)->useEmail(
-    'template_name_from_db',        // slug created from the name given on creation
-    $locale,                        // The locale to use for the email (fr, en, etc.)
-    ['name' => $user->name->first]  // your extra variables (context)
+    'template_name_from_db', // slug created from the name given on creation
+    $locale,                 // The locale to use for the email (fr, en, etc.)
+    $context                 // your extra variables (context)
 )->send();
 ```
 
