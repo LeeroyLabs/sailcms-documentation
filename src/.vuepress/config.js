@@ -106,10 +106,11 @@ module.exports = {
             },
             {
                 title: 'Security',
-                path: '/security/two-factor',
+                path: '/security/basic-auth',
                 collapsable: true,
                 sidebarDepth: 1,
                 children: [
+                    '/security/basic-auth',
                     '/security/two-factor',
                     '/security/inputs',
                     '/security/encryption',
