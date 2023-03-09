@@ -83,6 +83,18 @@ You can tell SailCMS to remove itself from the graphQL API and act more like a f
     'active' => true,
     'trigger' => 'graphql',
     'depthLimit' => 5,
+    'introspection' => true,
     'hideCMS' => true   // <-- set this to true to hide the cms from GraphQL
 ]
 ```
+
+__IMPORTANT NOTE__
+
+When you activate introspection (should really only be used in development) it forces depth limiting to `11` instead
+of your config's value.
+
+## Testing your GraphQL api
+
+If you do not have a tool specialized for GraphQL (ex: postman, RapidAPI, Altair) or you do not want to install one,
+you can install the official package "GraphQLPlayground" which is a web UI for GraphQL. You can check out the details
+on [GitHub](https://github.com/LeeroyLabs/sail-graphql-playground).

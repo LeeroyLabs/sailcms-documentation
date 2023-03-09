@@ -130,5 +130,5 @@ You can easily delete any document (and instance of a model really, even if not 
 method on the document.
 
 ```php
-$obj->delete();
+$obj->remove();
 ```

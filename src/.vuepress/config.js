@@ -95,6 +95,26 @@ module.exports = {
                 ]
             },
             {
+                title: 'CMS',
+                path: '/cms/entries',
+                collapsable: true,
+                sidebarDepth: 1,
+                children: [
+                    '/cms/entries',
+                    '/cms/fields',
+                    '/cms/categories',
+                    '/cms/users/',
+                    '/cms/users/authentication',
+                    '/cms/users/meta'
+                ]
+            },
+            {
+                title: 'Templating',
+                path: '/templating/',
+                collapsable: true,
+                sidebarDepth: 1
+            },
+            {
                 title: 'Connectivity',
                 path: '/connectivity/graphql',
                 collapsable: true,
@@ -118,34 +138,20 @@ module.exports = {
                 ]
             },
             {
-                title: 'Templating',
-                path: '/templating/',
-                collapsable: true,
-                sidebarDepth: 1
-            },
-            {
                 title: 'Middleware',
                 path: '/middleware/',
                 collapsable: true,
                 sidebarDepth: 1
             },
             {
-                title: 'CMS',
-                path: '/cms/entries',
-                collapsable: true,
-                sidebarDepth: 1,
-                children: [
-                    '/cms/entries',
-                    '/cms/fields',
-                    '/cms/categories',
-                    '/cms/users/',
-                    '/cms/users/authentication',
-                    '/cms/users/meta'
-                ]
-            },
-            {
                 title: 'Search',
                 path: '/search/',
+                collapsable: false,
+                sidebarDepth: 1
+            },
+            {
+                title: 'Package Development',
+                path: '/package-dev/',
                 collapsable: false,
                 sidebarDepth: 1
             }

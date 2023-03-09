@@ -383,6 +383,11 @@ As you can add indexes, you can remove them with `dropIndex` or `dropIndexes`.
 __NOTE__: Breeze supports creating basic indexes, if you need more advanced indexes, it's preferred to be done directly
 in your database.
 
+## Logging Queries
+
+You can activate the `logging` configuration (__works only in development mode__), this will log your queries to wherever
+you have configured the logger. We recommended database logging as it's clearer than flat file.
+
 ## Utilities
 
 ### ensureObjectId
