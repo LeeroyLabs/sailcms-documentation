@@ -74,6 +74,7 @@ module.exports = {
                     '/working-with-sail/roles-acl',
                     '/working-with-sail/io',
                     '/working-with-sail/emails',
+                    '/working-with-sail/users',
                     '/working-with-sail/sessions',
                     '/working-with-sail/text',
                     '/working-with-sail/collections',
