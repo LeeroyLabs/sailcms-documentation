@@ -1,7 +1,8 @@
 # Entries
 
 SailCMS comes with models to help structure your page contents. 
-The models are the `Entry`, `EntryType` and the `EntryLayout`.
+The models for the content are the `EntryType`, `EntryLayout`, `EntrySeo` and `Entry`.
+There is also the `EntryVersion` model for versionning and the `EntryPublication` for publishing your entries.
 
 ## Entry Type
 
@@ -100,7 +101,7 @@ In your configuration file, look for the `defaultType` section.
                 'en' => '',
                 'fr' => ''
             ]
-            'entryLayoutId' => false 
+            'entryLayoutId' => null 
         ]
     ]
 ...
@@ -244,7 +245,7 @@ An entry is used to store data for a piece of content in your application. We do
 SailCMS can be used to create things like one-off pages like contact or pages, blog articles, product pages or any other
 type of content your application needs. It can handle anything that has content or media.
 
-All entries have a `locale`. `site_id` and `alternates` properties to localized your them. 
+All entries have a `locale`. `site_id` and `alternates` properties to localized them. 
 In the alternate field, contains the alternate entry ids for the same content, this way, you can easily refer to the
 alternate content, with something like a language switcher, without having to do any more work.
 
@@ -253,12 +254,9 @@ This field takes an `EntryParent`, that needs a `type_handle` and `parent_id` at
 
 So, you can organize all your entries in your site regardless of the type.
 
-An entry has three different possible status `live`, `inactive` or `trash`. 
-That means that when the status is set to `trash`, this is what we call `soft delete`. The content is trashed to the cms
-and will not respond to user accessing the url. But in reality, the content still exists in case you ever change your mind.
-
-> **Warning**  
-> The status cannot be set to `trash` in the update method, you must use the delete method to do that.
+An entry has a `trashed` status. That means that when it's true, this is what we call `soft delete`. 
+The content is trashed to the cms and will not respond to user accessing the url. 
+But in reality, the content still exists in case you ever change your mind.
 
 For content fields, they have `title`, `template`, `slug`, `categories` and `content` properties.
 
@@ -296,7 +294,52 @@ Here is a list of utility notes to help you work with entries.
 
 The homepage is automatically stored in the configs table when you are creating, updating or deleting an entry.
 To retrieve the homepage you should use `Entry::getHomepage()` with your site id and your locale. 
-In the `create` and `updateById` methods, if the `isHomepage`, `locale` or `siteid` fields are changed the homepage settings will be updated accordingly. 
+In the `create` and `updateById` methods, if the `isHomepage`, `locale` or `siteid` fields 
+are changed the homepage settings will be updated accordingly. 
+
+#### Using a middleware
+
+It is possible to hook the entry model with a middleware to intervene before the save, update and delete methods.
+
+```php
+class TestMiddleware implements AppMiddleware
+{
+
+    public function type(): MiddlewareType
+    {
+        return MiddlewareType::ENTRY;
+    }
+
+    public function process(Data $data): Data
+    {
+        switch ($data->event)
+        {
+            case Entry::BeforeCreate:
+                if ($data->data['title']) {
+                    $data->data['title'] .= '-middleware-create';
+                }
+                break;
+
+            case Entry::BeforeUpdate:
+                if ($data->data['title']) {
+                    $data->data['title'] .= '-middleware-update';
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return $data;
+    }
+}
+```
+
+So, all data send in the create and update method can be updated before the actual operation.
+
+#### Post save, update and delete events
+
+TODO
 
 #### CRUD Methods
 
@@ -312,3 +355,45 @@ These getter methods will only search on the Entry Type that is joined to the En
 
 The `findByUrl` and `findByCategoryId` static methods are also public and opposite to the getter methods, this will search
 in all entry types.
+
+## Entry Version
+
+The versioning system use this model to store the entry at creation and on each update. 
+Then, it's possible to apply any version except the current version.
+
+There is no possibility to update an entry version for obvious reasons and 
+when an entry is deleted, all related versions are deleted.
+
+### Utilities
+
+Here is a list of utility notes to help you work with entry versions.
+
+#### Get methods
+
+The `getById`, `getVersionsByEntryId` and `getLastVersionByEntryId` are all read protected with the Sail ACL system.
+
+#### Apply a version
+
+The `applyVersion` method is written protected with the Sail ACL system.
+By only passing the entry version id, the related entry will be updated with the new version.
+
+> **Warning**  
+> If the entry version id is the same as the last version, there will be an Exception because we forbid to apply the current version.
+
+## Entry Publication
+
+When your entry is ready for the public, you need to publish it. This is where entry publications come in.
+Obviously, a publication has a `dates.published` date and can have an `dates.expired` date.
+
+There is only one entry publication per entry, so when we create a new publication, all others publications are deleted.
+And it's why there is no update possible on entry publication.
+
+### Utilities
+
+Here is a list of utility notes to help you work with entry publications.
+
+#### CRUD methods
+
+The `create` method, which is called by the entry model via the `publish` method, is written protected with the Sail ACL system.
+
+The `deleteAllByEntryId` method, which is called among others process by the `unpublish` method, is also written protected.

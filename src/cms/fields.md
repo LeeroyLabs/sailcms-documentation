@@ -173,6 +173,22 @@ Additionally, the `step` parameter of the input, will be set accordingly.
 So, its configs contain only a [Number Input Field](#number-input-field).
 There is no extra validation for it.
 
+#### Entry Field
+
+TODO
+
+#### Asset Field
+
+TODO
+
+#### Select Field
+
+TODO
+
+#### Select Multiple Field
+
+TODO
+
 ## Input Field
 
 The use of input fields is to represent html inputs and his attributes to make the content form of an [Entry](/cms/entries#entry).
@@ -253,4 +269,12 @@ Indeed, if the step contains decimals, it will become a float.
 The `storingType` is float or an integer according to the `step` attribute.
 
 > **Note**  
-> The `step` property is automatically sets according the `precision` value of the [Number Field](#number-field).
+> The `step` property isautomatically sets according the `precision` value of the [Number Field](#number-field).
+
+#### Select Input Field
+
+TODO
+
+#### Email Input Field
+
+TODO
