@@ -85,3 +85,23 @@ Register::containerExists('name', 1.2);
 ```
 
 The register will respond true if the container exists and is at least version 1.2.
+
+## Providing templates
+
+Your container can use its own templates to provide a UI to the user. To do that, in
+your `info` method, you can add this line to tell the rendering engine (twig)
+that you are providing a new path.
+
+```php
+\SailCMS\Templating\Engine::addTemplatePath(__DIR__ . '/templates');
+```
+
+Just make sure you create the `templates` directory and that you create
+`.twig` files.
+
+Then in your controller, you can tell the response property to use whatever
+template you want.
+
+```php
+$this->response->template = 'your_local_template';
+```

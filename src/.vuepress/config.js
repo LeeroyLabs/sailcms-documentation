@@ -52,7 +52,8 @@ module.exports = {
                 children: [
                     '/getting-started/',
                     '/getting-started/installation',
-                    '/getting-started/configuration'
+                    '/getting-started/configuration',
+                    '/getting-started/boot'
                 ]
             },
             {
@@ -63,15 +64,17 @@ module.exports = {
                 children: [
                     '/working-with-sail/request-response',
                     '/working-with-sail/errors-and-debugging',
-                    '/working-with-sail/logging',
-                    '/working-with-sail/containers',
-                    '/working-with-sail/routing',
-                    '/working-with-sail/modules',
+                    '/working-with-sail/di',
                     '/working-with-sail/cli',
-                    '/working-with-sail/database-models',
+                    '/working-with-sail/logging',
+                    '/working-with-sail/routing',
+                    '/working-with-sail/controllers',
+                    '/working-with-sail/containers',
+                    '/working-with-sail/modules',
                     '/working-with-sail/roles-acl',
                     '/working-with-sail/io',
                     '/working-with-sail/emails',
+                    '/working-with-sail/users',
                     '/working-with-sail/sessions',
                     '/working-with-sail/text',
                     '/working-with-sail/collections',
@@ -82,38 +85,15 @@ module.exports = {
                 ]
             },
             {
-                title: 'Connectivity',
-                path: '/connectivity/graphql',
+                title: 'Breeze ODM',
+                path: '/breeze/odm',
                 collapsable: true,
                 sidebarDepth: 1,
                 children: [
-                    '/connectivity/graphql',
-                    '/connectivity/rest'
+                    '/breeze/odm',
+                    '/breeze/activerecord',
+                    '/breeze/migrations'
                 ]
-            },
-            {
-                title: 'Security',
-                path: '/security/two-factor',
-                collapsable: true,
-                sidebarDepth: 1,
-                children: [
-                    '/security/two-factor',
-                    '/security/inputs',
-                    '/security/encryption',
-                    '/security/csrf'
-                ]
-            },
-            {
-                title: 'Templating',
-                path: '/templating/',
-                collapsable: true,
-                sidebarDepth: 1
-            },
-            {
-                title: 'Middleware',
-                path: '/middleware/',
-                collapsable: true,
-                sidebarDepth: 1
             },
             {
                 title: 'CMS',
@@ -130,8 +110,49 @@ module.exports = {
                 ]
             },
             {
+                title: 'Templating',
+                path: '/templating/',
+                collapsable: true,
+                sidebarDepth: 1
+            },
+            {
+                title: 'Connectivity',
+                path: '/connectivity/graphql',
+                collapsable: true,
+                sidebarDepth: 1,
+                children: [
+                    '/connectivity/graphql',
+                    '/connectivity/rest'
+                ]
+            },
+            {
+                title: 'Security',
+                path: '/security/basic-auth',
+                collapsable: true,
+                sidebarDepth: 1,
+                children: [
+                    '/security/basic-auth',
+                    '/security/two-factor',
+                    '/security/inputs',
+                    '/security/encryption',
+                    '/security/csrf'
+                ]
+            },
+            {
+                title: 'Middleware',
+                path: '/middleware/',
+                collapsable: true,
+                sidebarDepth: 1
+            },
+            {
                 title: 'Search',
                 path: '/search/',
+                collapsable: false,
+                sidebarDepth: 1
+            },
+            {
+                title: 'Package Development',
+                path: '/package-dev/',
                 collapsable: false,
                 sidebarDepth: 1
             }

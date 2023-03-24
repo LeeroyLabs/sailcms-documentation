@@ -97,7 +97,7 @@ this is automatically turned off performance sake.
 
 If you need it, you can ask that your json be encrypted before output. You are responsible for having the necessary items
 to decrypt on the other side. For transport purposes, the encrypted output is encoded with Base64.
-See [Security](/working-with-sail/security) section for more details.
+See [Security](/security/encryption) section for more details.
 
 ```php
 $response->secure = true;

@@ -12,7 +12,7 @@ $this->request->get('other_key');
 ```
 
 These are sanitized by default, so you don't have to worry about this security risk. On the other hand, if you need to
-a raw value, you ca pass `true` as a second argument to those methods, this will skip the filtering system.
+a raw value, you can pass `true` as a second argument to those methods, this will skip the filtering system.
 
 An very useful third argument can be used to provide a default value if the variable you are looking for is not set or null.
 

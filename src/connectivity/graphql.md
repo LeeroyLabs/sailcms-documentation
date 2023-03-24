@@ -73,3 +73,28 @@ public function resolver(mixed $obj, Collection $args, Context $context, Resolve
 
 When you are ready to go to production, you must not forget to compile your GraphQL Schema. The reason you have to do that
 is for performance. Compiling it will build an AST and make it a lot more performant on production environments.
+
+## Removing the CMS from GraphQL
+
+You can tell SailCMS to remove itself from the graphQL API and act more like a framework by setting the `hideCMS` option to `true`.
+
+```php
+'graphql' => [
+    'active' => true,
+    'trigger' => 'graphql',
+    'depthLimit' => 5,
+    'introspection' => true,
+    'hideCMS' => true   // <-- set this to true to hide the cms from GraphQL
+]
+```
+
+__IMPORTANT NOTE__
+
+When you activate introspection (should really only be used in development) it forces depth limiting to `11` instead
+of your config's value.
+
+## Testing your GraphQL api
+
+If you do not have a tool specialized for GraphQL (ex: postman, RapidAPI, Altair) or you do not want to install one,
+you can install the official package "GraphQLPlayground" which is a web UI for GraphQL. You can check out the details
+on [GitHub](https://github.com/LeeroyLabs/sail-graphql-playground).

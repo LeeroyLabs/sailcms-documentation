@@ -4,11 +4,21 @@ For example, if you would like your container to provider the `/hello-world` rou
 the following code in the `routes` method of your container:
 
 ```php
-$this->router->get('/hello-world', 'en', Spec::class, 'helloWorld', 'internal_name');
+$this->router->get(
+    '/hello-world', 
+    'en', 
+    Spec::class, 
+    'helloWorld', 
+    'internal_name',
+    false
+);
 ```
 
 The above code tells the router that the route `/hello-world` will be taken care of by the `Spec` controller
-using the `helloWorld` method.
+using the `helloWorld` method. 
+
+The last argument is for cases where you want the route to be secure or not. Secure routes require
+the user to be logged in to the system otherwise, a 403 page will be served. By default, the routes are not secured.
 
 The controller's method needs to provider a `Response` object to render out to the client. You have a choice
 of 3 types of output, `html`, `json` or `csv`. You only need to return the response object, the rendering
