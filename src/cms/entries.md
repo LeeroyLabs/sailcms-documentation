@@ -339,7 +339,33 @@ So, all data send in the create and update method can be updated before the actu
 
 #### Post save, update and delete events
 
-TODO
+To hook itself the after the entry save, events way has been chosen.
+There are three constant in the entry model, to get entry events:
+
+```php
+public const EVENT_DELETE = 'event_delete_entry';
+public const EVENT_CREATE = 'event_create_entry';
+public const EVENT_UPDATE = 'event_update_entry';
+```
+
+To register an event in a container is simple as this:
+```php
+public function events(): void
+    {
+        Event::register(Entry::EVENT_CREATE, self::class, 'entryPostCreate');
+...
+```
+
+Then, the entry is accessible like that:
+```php
+public function entryPostCreate($event, $data) {
+        /**
+         * @var Entry $entry;
+         */
+        $entry = $data['entry'];
+        print_r($entry->url);
+    }
+```
 
 #### CRUD Methods
 

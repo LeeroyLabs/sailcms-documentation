@@ -173,19 +173,19 @@ Additionally, the `step` parameter of the input, will be set accordingly.
 So, its configs contain only a [Number Input Field](#number-input-field).
 There is no extra validation for it.
 
-#### Entry Field
-
-TODO
-
-#### Asset Field
-
-TODO
-
 #### Select Field
 
 TODO
 
 #### Select Multiple Field
+
+TODO
+
+#### Entry Field
+
+TODO
+
+#### Asset Field
 
 TODO
 
