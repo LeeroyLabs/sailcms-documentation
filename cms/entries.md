@@ -1,7 +1,8 @@
-# Entries <Badge type="tip" text="3.0.0" />
+# Entry <Badge type="tip" text="3.0.0" />
 
-SailCMS comes with models to help structure your page contents. 
-The models are the `Entry`, `EntryType` and the `EntryLayout`.
+SailCMS comes with models to help structure your page contents.
+The models for the content are the `EntryType`, `EntryLayout`, `EntrySeo` and `Entry`.
+There is also the `EntryVersion` model for versionning and the `EntryPublication` for publishing your entries.
 
 ## Entry Type
 
@@ -9,8 +10,8 @@ The entry type is used to regroup the entries into the same type and in the same
 to define the tables in the databases. Thereby, the entries of a blog type would be located
 in the `blogs` table of the database.
 
-An entry type is formed with a `title`, a `handle`, an `url_prefix` and a `entry_layout_id`. 
-The `handle` is used to get the instance or to get the related Entry model. 
+An entry type is formed with a `title`, a `handle`, an `url_prefix` and a `entry_layout_id`.
+The `handle` is used to get the instance or to get the related Entry model.
 
 This is the list of reserved words that are not allowed to create an Entry Type:
 
@@ -46,7 +47,7 @@ const RESERVED_WORDS_FOR_HANDLE = [
 ::: warning
 Once the handle is set it can't be changed.
 :::
-
+> 
 <br/>
 
 The `url_prefix` field is a LocaleField, an object that looks like this:
@@ -82,7 +83,7 @@ content would be /blog/hello-world/update-to-the-breaking-story
 
 At any point, if you change the base url or the parent's url, your content's url will be updated accordingly.
 
-You can also assign an [entry layout](#entry-layout) to an entry type by passing its id. 
+You can also assign an [entry layout](#entry-layout) to an entry type by passing its id.
 
 ### Changing the default Entry Type
 
@@ -101,7 +102,7 @@ In your configuration file, look for the `defaultType` section.
                 'en' => '',
                 'fr' => ''
             ]
-            'entryLayoutId' => false 
+            'entryLayoutId' => null 
         ]
     ]
 ...
@@ -120,7 +121,7 @@ instantiate the `Entry` model, like this
 $model = new Entry();
 ```
 
-SailCMS will return the default type, `Page`. But if you know what type of content you want, you can use the convenience 
+SailCMS will return the default type, `Page`. But if you know what type of content you want, you can use the convenience
 method:
 
 ```php
@@ -131,12 +132,12 @@ $model = EntryType::getEntryModelByHandle('your_type');
 
 The `createOne`, `updateByHandle` and `hardDelete` methods are all write protected with the Sail ACL system.
 
-::: tip
+::: info
 When you delete an entry type, an EntryException could be raised if there are existing related entries.
 :::
-
+> 
 The `getAll`, `findAll`, `getDefaultType` and `getEntryModelByHandle` public static methods are all read protected as well as
-the `getEntryModel`, `getById` and `getByHandle` public methods. 
+the `getEntryModel`, `getById` and `getByHandle` public methods.
 
 However, the `getAll`, `getDefaultType` and `getEntryModelByHandle` methods have a special parameter to enable the read protection
 in case it is required. It's called `api` and is a boolean.
@@ -159,7 +160,7 @@ would remove it from the database forever.
 
 The `schema` property is a representation of the available fields and their configurations for the specific layout.
 
-::: tip  
+::: info
 To have a better understanding of the schema field components, check the [Fields page](/cms/fields).
 :::
 
@@ -226,7 +227,7 @@ $entryLayout->updateSchemaConfig('title', [
 
 #### Update schema key
 
-Like the `updateSchemaConfig`, this public method is really useful to modify the schema. 
+Like the `updateSchemaConfig`, this public method is really useful to modify the schema.
 But now, it's to modify a key in the schema and it only needs the `key` and a `newKey`.
 
 ```php
@@ -247,30 +248,26 @@ An entry is used to store data for a piece of content in your application. We do
 SailCMS can be used to create things like one-off pages like contact or pages, blog articles, product pages or any other
 type of content your application needs. It can handle anything that has content or media.
 
-All entries have a `locale`. `site_id` and `alternates` properties to localized your them. 
+All entries have a `locale`. `site_id` and `alternates` properties to localized them.
 In the alternate field, contains the alternate entry ids for the same content, this way, you can easily refer to the
 alternate content, with something like a language switcher, without having to do any more work.
 
-It's possible to structure your entries with the `parent` attribute. 
+It's possible to structure your entries with the `parent` attribute.
 This field takes an `EntryParent`, that needs a `type_handle` and `parent_id` attribute.
 
 So, you can organize all your entries in your site regardless of the type.
 
-An entry has three different possible status `live`, `inactive` or `trash`. 
-That means that when the status is set to `trash`, this is what we call `soft delete`. The content is trashed to the cms
-and will not respond to user accessing the url. But in reality, the content still exists in case you ever change your mind.
-
-::: tip
-The status cannot be set to `trash` in the update method, you must use the delete method to do that.
-:::
+An entry has a `trashed` status. That means that when it's true, this is what we call `soft delete`.
+The content is trashed to the cms and will not respond to user accessing the url.
+But in reality, the content still exists in case you ever change your mind.
 
 For content fields, they have `title`, `template`, `slug`, `categories` and `content` properties.
 
-If the slug is set to `null`, Sail will generate one out of the title. There is also a validation performed on the slug 
+If the slug is set to `null`, Sail will generate one out of the title. There is also a validation performed on the slug
 to make sure that there is no duplicates. If there is ever a duplicate, we will increment a value and add it to the end
 of the slug. For example, if `my-page` already exists, Sail will set `my-page-2`.
 
-The `categories` is a list of ids that is used to filter the list of entries. 
+The `categories` is a list of ids that is used to filter the list of entries.
 
 The `content` is linked to the [Entry Layout](#entry-layout) with a key and a simple object with a `handle`, `type` and the `content` :
 - The `handle` is related to the [Model Field](/cms/fields#model-field) and helps to validate the content as well as the `type` value.
@@ -299,8 +296,79 @@ Here is a list of utility notes to help you work with entries.
 #### Homepage usage
 
 The homepage is automatically stored in the configs table when you are creating, updating or deleting an entry.
-To retrieve the homepage you should use `Entry::getHomepage()` with your site id and your locale. 
-In the `create` and `updateById` methods, if the `isHomepage`, `locale` or `siteid` fields are changed the homepage settings will be updated accordingly. 
+To retrieve the homepage you should use `Entry::getHomepage()` with your site id and your locale.
+In the `create` and `updateById` methods, if the `isHomepage`, `locale` or `siteid` fields
+are changed the homepage settings will be updated accordingly.
+
+#### Using a middleware
+
+It is possible to hook the entry model with a middleware to intervene before the save, update and delete methods.
+
+```php
+class TestMiddleware implements AppMiddleware
+{
+
+    public function type(): MiddlewareType
+    {
+        return MiddlewareType::ENTRY;
+    }
+
+    public function process(Data $data): Data
+    {
+        switch ($data->event)
+        {
+            case Entry::BeforeCreate:
+                if ($data->data['title']) {
+                    $data->data['title'] .= '-middleware-create';
+                }
+                break;
+
+            case Entry::BeforeUpdate:
+                if ($data->data['title']) {
+                    $data->data['title'] .= '-middleware-update';
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return $data;
+    }
+}
+```
+
+So, all data send in the create and update method can be updated before the actual operation.
+
+#### Post save, update and delete events
+
+To hook itself the after the entry save, events way has been chosen.
+There are three constant in the entry model, to get entry events:
+
+```php
+public const EVENT_DELETE = 'event_delete_entry';
+public const EVENT_CREATE = 'event_create_entry';
+public const EVENT_UPDATE = 'event_update_entry';
+```
+
+To register an event in a container is simple as this:
+```php
+public function events(): void
+    {
+        Event::register(Entry::EVENT_CREATE, self::class, 'entryPostCreate');
+...
+```
+
+Then, the entry is accessible like that:
+```php
+public function entryPostCreate($event, $data) {
+        /**
+         * @var Entry $entry;
+         */
+        $entry = $data['entry'];
+        print_r($entry->url);
+    }
+```
 
 #### CRUD Methods
 
@@ -309,10 +377,53 @@ The `create`, `updateById` and `delete` methods are all write protected with the
 As mentioned before, the homepage setting is updated each time the `isHomepage` flag is provided in the update
 as well as if you delete an entry with the `isHomepage` set to *true*.
 
-The `one`, `getCount`, `all` and `countEntries` public methods are not read protected because the entries are the public 
+The `one`, `getCount`, `all` and `countEntries` public methods are not read protected because the entries are the public
 content of the application.
 
 These getter methods will only search on the Entry Type that is joined to the Entry constructor, not on all types.
 
 The `findByUrl` and `findByCategoryId` static methods are also public and opposite to the getter methods, this will search
 in all entry types.
+
+## Entry Version
+
+The versioning system use this model to store the entry at creation and on each update.
+Then, it's possible to apply any version except the current version.
+
+There is no possibility to update an entry version for obvious reasons and
+when an entry is deleted, all related versions are deleted.
+
+### Utilities
+
+Here is a list of utility notes to help you work with entry versions.
+
+#### Get methods
+
+The `getById`, `getVersionsByEntryId` and `getLastVersionByEntryId` are all read protected with the Sail ACL system.
+
+#### Apply a version
+
+The `applyVersion` method is written protected with the Sail ACL system.
+By only passing the entry version id, the related entry will be updated with the new version.
+
+::: warning
+If the entry version id is the same as the last version, there will be an Exception because we forbid to apply the current version.
+:::
+ 
+## Entry Publication
+
+When your entry is ready for the public, you need to publish it. This is where entry publications come in.
+Obviously, a publication has a `dates.published` date and can have an `dates.expired` date.
+
+There is only one entry publication per entry, so when we create a new publication, all others publications are deleted.
+And it's why there is no update possible on entry publication.
+
+### Utilities
+
+Here is a list of utility notes to help you work with entry publications.
+
+#### CRUD methods
+
+The `create` method, which is called by the entry model via the `publish` method, is written protected with the Sail ACL system.
+
+The `deleteAllByEntryId` method, which is called among others process by the `unpublish` method, is also written protected.
