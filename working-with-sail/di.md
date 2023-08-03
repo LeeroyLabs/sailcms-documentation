@@ -12,10 +12,7 @@ class YourController extends AppController
 {
     private DependencyType $yourDep;
     
-    public function __construct(DependencyType $yourDep) 
-    {
-        $this->yourDep = $yourDep;
-    }
+    public function __construct(protected DependencyType $yourDep) {}
 }
 ```
 
