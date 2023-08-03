@@ -13,7 +13,14 @@ php sail list
 ## build:schema
 
 This command creates an abstract syntax tree (AST) cache of the graphql schema to have superior
-performance for graphql for production.
+performance for graphql for production. 
+
+:::warning
+__Very important Note:__
+
+If you are running SailCMS in Framework mode, add the `--hidecms` flag on this command to hide
+the cms graphql queries and mutations from the AST.
+:::
 
 ## create:
 
