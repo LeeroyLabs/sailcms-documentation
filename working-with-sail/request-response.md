@@ -11,6 +11,38 @@ Every call that returns a response to the requester is Response Object and can b
 being returned to the requester. See the [Middlewares section](/extending-sailcms/middleware) for more details about 
 this concept.
 
+## Request Class
+
+The request class is very useful when you need information about the request that you are dealing with. It provides you
+with things like user ip, used http method, user agent, active user (if logged in), headers and more.
+
+### User Input 
+
+The request class is also responsible for an input coming from the users. It's where you would get the data for `GET`,
+`POST` and `PUT` requests. The request class will handle sanitization of the data so your app can remain secure and 
+default value in case the value is not set for the piece of data you are looking for. 
+
+Here are 2 examples of getting a `POST` value. Example 1 is the safe way to do it, Example 2 skips the sanitizing process.
+
+```php
+// Safe
+$thing1 = $this->request->post('my_thing1', false, 'default_value');
+
+// Unsafe
+$thing2 = $this->request->post('my_thing2', true, 'default_value');
+```
+
+### User
+
+Many times in your application, you will need to know if the requesting user is an authenticated user.
+The request class offers 2 methods to valid if a user is logged in. `user` and `isLoggedIn` will do this for you.
+`user` will return the active user if available while `isLoggedIn` will tell you a yes or no answer to that question.
+
+### Headers
+
+The request class can help you get or validate headers from the request. It can give you the headers, give you a specific
+header value or validate if the header is present and not empty.
+
 ## HTML Response
 
 Providing an HTML response enables you to output an HTML template with Twig. Twig is a leading templating engine that
