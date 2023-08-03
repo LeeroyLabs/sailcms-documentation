@@ -12,8 +12,6 @@ Application (SPA) and that your application will not be hosted behind a load bal
 Stateless uses Json Web Tokens (JWT) to be compatible with SPAs and load balanced applications. This adapter is the 
 recommended way to handle authentication. It's the most secure of the two.
 
-<br/>
-
 ## Security Note
 Both of the adapters use `https`, `samesite` and `http only` cookies to store the session id or jwt.
 
