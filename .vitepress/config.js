@@ -25,7 +25,7 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/getting-started/' },
           { text: 'Installation', link: '/getting-started/installation' },
-          { text: 'Configuration', link: '/getting-started/configuration', items: [
+          { text: 'Configuration', link: '/getting-started/configuration', collapsed: true, items: [
               { text: 'General', link: '/getting-started/configurations/general'},
               { text: 'Cache', link: '/getting-started/configurations/cache'},
               { text: 'Emails', link: '/getting-started/configurations/emails'},
@@ -95,6 +95,7 @@ export default defineConfig({
           { text: 'Modules', link: '/extending-sailcms/modules' },
           { text: 'Middleware', link: '/extending-sailcms/middleware'},
           { text: 'Commander', link: '/extending-sailcms/cli' },
+          { text: 'UI / SDK', link: '/extending-sailcms/ui'},
           { text: 'Package Development', link: '/extending-sailcms/package-dev'}
         ]
       },
@@ -104,7 +105,8 @@ export default defineConfig({
         items: [
           { text: 'ODM', link: '/breeze/odm' },
           { text: 'ActiveRecord', link: '/breeze/activerecord' },
-          { text: 'Migrations', link: '/breeze/migrations'}
+          { text: 'Migrations', link: '/breeze/migrations'},
+          { text: 'Views', link: '/breeze/views'}
         ]
       },
       {

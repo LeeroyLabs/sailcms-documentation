@@ -97,11 +97,22 @@ $obj->save();
 
 ## Push to array
 
+You can easily push content to an array in your database object using `push` and `pushEach`. `push` is meant to be used
+with 1 item being added. `pushEach` will push an array's items one after the other. See it like a merge. But `pushEach`
+also has a secret power, it can sort and/or slice the final array.
+
 ## Pop out of array
+
+Remove the first element of your array.
 
 ## Pull from array
 
+Remove the last element of your array.
+
 ## Pull all from array
+
+Removes everything that matches your query in the array. For example, you want to remove every item that matches the "world"
+string.
 
 ## Updated values after saving
 
