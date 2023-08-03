@@ -31,6 +31,10 @@ CACHE_USE=false
 CACHE_USER=""
 CACHE_PASSWORD=""
 CACHE_HOST=tcp://localhost:6379
+
+# Extension Handshake Key
+EXTENSION_HANDSHAKE_KEY="GENERATE USING: php sail create:password"
+EXTENSION_MINIMUM_LEVEL_REQUIRED=100
 ```
 
 ## Accessing Environment Variables
