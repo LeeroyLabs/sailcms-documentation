@@ -122,8 +122,8 @@ application/json for you.
 
 ### Dev Mode
 
-When in Dev mode, Sail will output your JSON in a human readable format to help with debugging. When in production mode
-this is automatically turned off performance sake.
+When in Dev mode, Sail will output your JSON in a human-readable format to help with debugging. When in production mode
+this is automatically turned off for performance’s sake.
 
 ### Secure JSON
 

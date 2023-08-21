@@ -9,9 +9,7 @@ is an example of DI.
 
 ```php
 class YourController extends AppController
-{
-    private DependencyType $yourDep;
-    
+{    
     public function __construct(protected DependencyType $yourDep) {}
 }
 ```
