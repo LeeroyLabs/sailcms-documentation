@@ -20,6 +20,8 @@ will default to `debug`.
 
 Ray is also used in the `Debug::printOut` method, if ray is enabled.
 
+You can always use `ray` directly to do more advanced calls.
+
 ## Whoops
 
 Whoops is the default exception catcher for SailCMS. It will give you everything you need to know about what just happened.

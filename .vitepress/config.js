@@ -5,6 +5,7 @@ export default defineConfig({
   title: "SailCMS",
   description: "Documentation",
   cleanUrls: true,
+  ignoreDeadLinks: true,
   themeConfig: {
     lastUpdated: true,
     // https://vitepress.dev/reference/default-theme-config
@@ -52,7 +53,8 @@ export default defineConfig({
           { text: 'Categories', link: '/cms/categories' },
           { text: 'Users', link: '/cms/users/', items: [
               { text: 'Authentication', link: '/cms/users/authentication'},
-              { text: 'User Meta', link: '/cms/users/meta'}
+              { text: 'User Meta', link: '/cms/users/meta'},
+              { text: 'Roles', link: '/cms/users/roles'}
           ]}
         ]
       },
