@@ -112,6 +112,13 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Sail-forms',
+        collapsed: false,
+        items: [
+          { text: 'Form', link: '/forms/form' }
+        ]
+      },
+      {
         text: 'Security',
         collapsed: false,
         items: [
