@@ -2,7 +2,7 @@
 
 SailCMS comes with models to help structure your page contents.
 The models for the content are the `EntryType`, `EntryLayout`, `EntrySeo` and `Entry`.
-There is also the `EntryVersion` model for versionning and the `EntryPublication` for publishing your entries.
+There is also the `EntryVersion` model for versioning and the `EntryPublication` for publishing your entries.
 
 ## Entry Type
 

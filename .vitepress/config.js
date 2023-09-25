@@ -51,6 +51,9 @@ export default defineConfig({
           { text: 'Entries', link: '/cms/entries' },
           { text: 'Fields', link: '/cms/fields' },
           { text: 'Categories', link: '/cms/categories' },
+          { text: 'Navigations', link: '/cms/navigations' },
+          { text: 'Tasks', link: '/cms/tasks' },
+          { text: 'SEO', link: '/cms/seo' },
           { text: 'Users', link: '/cms/users/', items: [
               { text: 'Authentication', link: '/cms/users/authentication'},
               { text: 'User Meta', link: '/cms/users/meta'},
