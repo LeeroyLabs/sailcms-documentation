@@ -52,4 +52,4 @@ the `searchTasks` public methods.
 However, the `getProcessId`, `getLogs`, `searchTasks` and `getById` methods have a special parameter to enable the read protection
 in case it is required. It's called `api` and is a boolean.
 
-The group of permission for the task is `Task`.
+The group of permission for the task is `task`.
