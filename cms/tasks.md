@@ -40,3 +40,16 @@ You can set `retriable` to false if you the task to be locked at the first failu
 
 By default nothing goes to `log`, but it possible to had log to your need ...
 
+### Utilities
+
+#### CRUD Methods
+
+The `add`, `update`, `closeTask` and `cancelTask` methods are all write protected with the Sail ACL system.
+
+The `getProcessId`, `getLogs`, `getById` and `getList` public static methods are all read protected as well as
+the `searchTasks` public methods.
+
+However, the `getProcessId`, `getLogs`, `searchTasks` and `getById` methods have a special parameter to enable the read protection
+in case it is required. It's called `api` and is a boolean.
+
+The group of permission for the task is `Task`.
