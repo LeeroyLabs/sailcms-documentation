@@ -101,12 +101,21 @@ In your configuration file, look for the `defaultType` section.
             'urlPrefix' => [
                 'en' => '',
                 'fr' => ''
-            ]
+            ],
+            'useCategories' => false,
             'entryLayoutId' => null 
         ]
     ]
 ...
 ```
+<br/>
+
+::: warning
+The entry type is not updated with the settings values, these parameters must be saved at the initialization of the project.
+:::
+>
+<br/>
+
 
 ### Utilities
 
@@ -158,7 +167,7 @@ The `titles` property is the title of the layout that is used to display the nam
 The `is_trashed` property is an indicator if the layout has been deleted. This of course is a soft delete. A hard delete
 would remove it from the database forever.
 
-The `schema` property is a representation of the available fields and their configurations for the specific layout.
+The `schema` property is a representation of the available field tabs and their configurations for the specific layout.
 
 ::: info
 To have a better understanding of the schema field components, check the [Fields page](/cms/fields).
@@ -168,79 +177,30 @@ To have a better understanding of the schema field components, check the [Fields
 
 Here is a list of utility notes to help you work with entry layouts.
 
-#### Generate Layout Schema
+#### Get Entry Fields
 
-The `generateLayoutSchema` static method is the best way to generate the schema for an entry layout.
-You simply pass a list of base field instances with a key to reuse it in the entry content.
+There is several method to get [Entry Field](/cms/fields#entry-field) from a schema.
 
-```php
-$textField = new TextField((object)[
-    'fr' => 'Titre', 
-    'en' => 'Title'
-], [
-    ['required' => true,],
-]);
+The `getFieldInSchema` static method get an Entry Field by his key. 
 
-$schema = EntryLayout::generateLayoutSchema(new Collection([
-    'title' => $textField
-]));
-```
+The `getEntryFieldIds` static method return all Entry Field of a Collection of Entry Layout.
 
-This method is the basis of all create/update of layouts. Once this is executed, you can create or update a layout
+The `fetchFields` static method is used to populate Entry Field object in the schema. Then, when you look at the schema 
+all the data of the fields are accessible.
 
-```php
-$layout = new EntryLayout();
+#### Has entry types
 
-$textField = new TextField((object)[
-    'fr' => 'Titre', 
-    'en' => 'Title'
-], [
-    ['required' => true,],
-]);
+The `hasEntryType` static method is useful to tell if an entry layout is used by an entry types. 
+It checks that assertion for a Collection of Entry Layouts
 
-$schema = EntryLayout::generateLayoutSchema(new Collection([
-    'title' => $textField
-]));
+#### Count used entry field
 
-$layout->create((object)[
-    'fr' => 'nom du layout', 
-    'en' => 'name of layout'
-], $schema);
-```
-
-This will create a new Layout with the given schema.
-
-#### Update schema config
-
-When you have queried your entry layout, you can use the `updateSchemaConfig` to update the settings of a field.
-You just need to pass a `fieldKey`, the setting to update, a `fieldIndex` and if you want the labels of the field in the admin panel.
-
-```php
-$entryLayout->updateSchemaConfig('title', [
-    'max_length' => 255,
-    'min_length' => 10
-], 0, new LocaleField([
-    'fr' => 'Titre de section',
-    'en' => 'Section title'
-]));
-```
-
-#### Update schema key
-
-Like the `updateSchemaConfig`, this public method is really useful to modify the schema.
-But now, it's to modify a key in the schema and it only needs the `key` and a `newKey`.
-
-```php
-// title will become subtitle
-$entryLayout->updateSchemaKey('title', 'subtitle');
-```
-
-All entries that use this layout will be updated accordingly.
+The `countUsedEntryField` static method allow to count the usage of an [Entry Field](/cms/fields#entry-field) with his id.
 
 #### CRUD methods
 
-The `create`, `updateById`, `updateSchemaKey` and `delete` methods are all write protected with the Sail ACL system.
-On the other-hand, the `getAll` and `one` public methods are read protected.
+The `create`, `updateById`, `deleteManyByIds`, `restoreMany` and `delete` methods are all write protected with the Sail ACL system.
+On the other-hand, the `getAll`, `bySlug` and `one` public methods are read protected.
 
 ## Entry
 
