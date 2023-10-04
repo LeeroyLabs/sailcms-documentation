@@ -15,24 +15,68 @@ If `true` the content will be treated as an _array_ otherwise, as the type of th
 
 The `searchable` property is a flag to make the content available for the [Sail Search Engine](/search/index)
 
-The `validation` property is a string that can contain all validation needed in your field. 
+The `validation` property is a string that can contain all validations needed for your field. 
 Each value must be separated by the pipe `|` character, and the [Validator](#validator) will use each value to validate the [Entry](/cms/entries#entry) content.
+It's possible to add argument to the validation via the `configs` property of the fields.
+For example, a "min" validation must be configured this way :
 
+```php
+
+```
 
 ### Utilities
 
+TODO
+
 #### CRUD METHOD
+
+TODO
 
 ## Validator
 
-Here is the list of cases that implemented in the Validator:
-- domain :
-- alpha, alphanum :
-- min :
-- max :
-- between :
-- postal :
-- phone :
-- date, time, datetime :
-- creditcard :
-- uuid :
+TODO
+
+### Domain
+
+__key__: domain
+
+To verify if a string is a domain.
+
+#### Possible argument
+
+__key__: tld
+
+A boolean to tell if it's a top-level domain, default set to `true`
+
+### Alpha and alphanum
+
+__key__: alpha
+__key__: alphanum
+
+To verify if a string is alpha or alphanumeric.
+
+#### Possible argument
+
+__key__: extraChars
+
+An array to add extra characters to the validation.
+
+[//]: # (- alpha, alphanum : .)
+
+[//]: # (- min : to verify that an integer or float value is minimum)
+
+[//]: # (  - )
+
+[//]: # (- max :)
+
+[//]: # (- between :)
+
+[//]: # (- postal :)
+
+[//]: # (- phone :)
+
+[//]: # (- date, time, datetime :)
+
+[//]: # (- creditcard :)
+
+[//]: # (- uuid :)
