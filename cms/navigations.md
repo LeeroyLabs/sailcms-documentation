@@ -1,23 +1,40 @@
 # Navigations
 
-Navigations help you to create navigations for your website.
+SailCMS offers an easy to create and manage navigations and sub navigations for your project. You can create headers,
+sidebars and footers. If you are using our official SailCMS UI, you can do all of that using a nice drag and drop interface.
 
-A navigation is formed with a `title`, a `slug`, a `structure`, a `locale` and a `site_id`.
-The `slug` is always unique.
+## Fetching a navigation in your project
 
-`site_id` and `locale` serve to know which region or language of the entry.
+A navigation contains some information for you in the admin panel but information for you on the frontend when fetching one.
 
-`structure` ...
+Here is an example of how to get a navigation using the Twig engine:
 
-### Utilities
+```twig
+{% set header = navigation('header_slug') %}
 
-#### CRUD Methods
+{% for item in header %}
+    <!-- Your HTML HERE -->
+{% endfor %}
+```
 
-The `create`, `update`, `delete` and `deleteByName` methods are all write protected with the Sail ACL system.
+You can also get a navigation using GraphQL is your project is using SailCMS in headless mode using the `navigation`
+query. It requires you to pass the navigation's slug. When found, it returns a structure that looks like this:
 
-The `getBySlug`, `getById` and `getList` public static methods are all read protected.
-
-However, the `getBySlug`, `getList` and `getById` methods have a special parameter to enable the read protection
-in case it is required. It's called `api` and is a boolean.
-
-The group of permission for the task is `navigation`.
+```json
+[
+    {
+        "label": "Lorem Ipsum",
+        "url": "https://othersite.com/item-url",
+        "is_entry": false,
+        "is_category": false,
+        "entry_id": "",
+        "external": true,
+        "children": [
+            {
+                // Repeated Structure
+            }
+        ]
+        
+    }
+]
+```
