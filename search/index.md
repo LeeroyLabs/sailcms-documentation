@@ -69,9 +69,6 @@ engine. To read on how to install the package, please visit
 ### Algolia
 TODO
 
-### ElasticSearch
-TODO
-
 ### Local Database
 
 SailCMS comes bundled with the locale database adapter for search. 

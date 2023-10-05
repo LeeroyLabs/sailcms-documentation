@@ -5,9 +5,9 @@ export default defineConfig({
   title: "SailCMS",
   description: "Documentation",
   cleanUrls: true,
+  lastUpdated: true,
   ignoreDeadLinks: true,
   themeConfig: {
-    lastUpdated: true,
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
@@ -15,7 +15,7 @@ export default defineConfig({
     ],
 
     footer: {
-      message: 'Released under the MIT License.',
+      message: 'Released under the GPL v3 License.',
       copyright: '&copy 2023-present Leeroy Creative Agency'
     },
 
@@ -28,6 +28,8 @@ export default defineConfig({
           { text: 'Installation', link: '/getting-started/installation' },
           { text: 'Configuration', link: '/getting-started/configuration', collapsed: true, items: [
               { text: 'General', link: '/getting-started/configurations/general'},
+              { text: 'Database', link: '/getting-started/configurations/database'},
+              { text: 'Monitoring', link: '/getting-started/configurations/monitoring'},
               { text: 'Cache', link: '/getting-started/configurations/cache'},
               { text: 'Emails', link: '/getting-started/configurations/emails'},
               { text: 'Passwords', link: '/getting-started/configurations/passwords'},
@@ -41,7 +43,8 @@ export default defineConfig({
               { text: 'Assets', link: '/getting-started/configurations/assets'},
               { text: 'Entry', link: '/getting-started/configurations/entry'},
               { text: 'Users', link: '/getting-started/configurations/users'}
-            ]}
+            ]},
+            { text: 'Deploying', link: '/getting-started/deploying' },
         ]
       },
       {
@@ -70,7 +73,8 @@ export default defineConfig({
           { text: 'Routing', link: '/working-with-sail/routing' },
           { text: 'Dependency Injection', link: '/working-with-sail/di'},
           { text: 'Roles and Permissions', link: '/working-with-sail/roles-acl'},
-          { text: 'Filesystem I/O', link: '/working-with-sail/io'},
+          { text: 'Storage', link: '/working-with-sail/storage'},
+          { text: 'I18n', link: '/working-with-sail/i18n'},
           { text: 'Emails', link: '/working-with-sail/emails'},
           { text: 'Sessions', link: '/working-with-sail/sessions'},
           { text: 'Text', link: '/working-with-sail/text'},
@@ -79,6 +83,7 @@ export default defineConfig({
           { text: 'Queue', link: '/working-with-sail/queue'},
           { text: 'Caching', link: '/working-with-sail/caching'},
           { text: 'Developer Tools', link: '/working-with-sail/devtools'},
+          { text: 'Monitoring', link: '/working-with-sail/monitoring'},
         ]
       },
       {

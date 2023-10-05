@@ -52,11 +52,56 @@ This event is called right after the execution a mutation. It passes the data re
 
 ## HTTP Events
 
-TODO
+#### BeforeRoute
+---
+This event is called right before the route is dispatched to the router.
+
+#### BeforeRender
+---
+This event is called right before template rendering. The context data is passed.
+
+#### AfterRender
+---
+This event is called right after the template rendering is done.
 
 ## Login Events
 
-TODO
+### LogIn
+---
+This event is called right after the login process. The user data is passed.
+
+### Meta
+---
+This event is called when parsing the meta data. The meta data is passed.
+
+### ForgotPassword
+---
+This event is called before sending the forgot password email. The email address and if Sail allows it to process is passed. You can decide not to process the request by setting `allowed` to `false`.
+
+## Asset Events
+
+#### OnUpload
+---
+This event is called right after the file is uploaded. The file data is passed.
+
+#### BeforeProcess
+---
+This event is called right before image processing is executed. The file data and filename are passed.
+
+#### AfterProcess
+---
+This event is called right after image processing was executed. The file data and filename are passed.
+
+## Entry Events
+
+#### BeforeCreate
+----
+This event is called right before the entry is created. The entry data is passed.
+
+#### BeforeUpdate
+----
+This event is called right before the entry is updarted. The update data is passed.
+
 
 ## How do I Create a Middleware?
 

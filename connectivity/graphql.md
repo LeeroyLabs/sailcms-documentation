@@ -82,7 +82,7 @@ public function resolver(mixed $obj, Collection $args, Context $context, Resolve
 When you are ready to go to production, you must not forget to compile your GraphQL Schema. The reason you have to do that
 is for performance. Compiling it will build an AST and make it a lot more performant on production environments.
 
-## Removing the CMS from GraphQL
+## Framework Mode
 
 You can tell SailCMS to remove itself from the graphQL API and act more like a framework by setting the `hideCMS` option to `true`.
 
@@ -98,8 +98,7 @@ You can tell SailCMS to remove itself from the graphQL API and act more like a f
 
 __IMPORTANT NOTE__
 
-When you activate introspection (should really only be used in development) it forces depth limiting to `11` instead
-of your config's value.
+When you activate introspection (should really only be used in development) it forces depth limiting to `11` instead of your configured value.
 
 ## Testing your GraphQL api
 

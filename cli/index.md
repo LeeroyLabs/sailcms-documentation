@@ -1,7 +1,6 @@
 # Commander <Badge type="tip" text="3.0.0" />
 
-Commander is the name of SailCMS' CLI tool is a powerful tool to help you extends the system really rapidly and in a standard way. You probably need
-to add your own commands for things like migrations, custom scripts, cron jobs, etc. The SailCMS CLI tool is extensible
+Commander is the name of SailCMS' CLI tool is a powerful tool to help you extends the system really rapidly and in a standard way. You probably need to add your own commands for things like migrations, custom scripts, cron jobs, etc. The SailCMS CLI tool is extensible
 using CLI Commands that the CLI can help you create.
 
 To get a list of existing commands, simply type
@@ -18,7 +17,7 @@ performance for graphql for production.
 :::warning
 __Very important Note:__
 
-If you are running SailCMS in Framework mode, add the `--hidecms` flag on this command to hide
+If you are running SailCMS in Framework mode, add the `--hidecms=1` flag on this command to hide
 the cms graphql queries and mutations from the AST.
 :::
 

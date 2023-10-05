@@ -1,0 +1,17 @@
+:root {
+    --vp-c-brand: #646cff;
+    --vp-c-brand-lighter: #747bff;
+    --vp-c-brand-dark: #4e53c5;
+    --vp-button-brand: #4e53c5;
+    --vp-c-green-darker: #4e53c5;
+
+    --vp-custom-block-info-text: #fff;
+    --vp-custom-block-info-border: #4e53c5;
+    --vp-custom-block-info-bg: #4e53c5;
+}
+
+.dark {
+    --vp-custom-block-info-text: #fff;
+    --vp-custom-block-info-border: rgba(32, 36, 93, 0.42);
+    --vp-custom-block-info-bg: rgba(78, 83, 197, 0.22);
+}

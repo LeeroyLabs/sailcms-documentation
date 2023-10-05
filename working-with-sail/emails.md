@@ -113,6 +113,7 @@ $context = [
 
 $mail = new Mail();
 $mail->to($email)->useEmail(
+    2,                       // version of the method to use (2 recommended)
     'template_name_from_db', // slug created from the name given on creation
     $locale,                 // The locale to use for the email (fr, en, etc.)
     $context                 // your extra variables (context)

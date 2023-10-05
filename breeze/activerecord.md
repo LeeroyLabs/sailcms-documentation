@@ -40,6 +40,32 @@ $obj->prop2 = 200;
 $obj->save();
 ```
 
+## Note on Updating Objects and Arrays
+
+Because of the way that PHP handles variable change when triggering the `__set` method, nested arrays and objects do not trigger the modification flag for the parent field. This means that you need to indicate when this happens. Here is an example of a change that would not save without the flag.
+
+```php
+$obj->topLevelObject->value_being_changed = true; // being false before
+$obj->save();
+```
+Thie will not save the change because php does not trigger a change event on `topLevelObject`.
+
+To circumvent this issue, every Activerecord object (basically anything returned from the database), you need to specify what changed when changing array or object data.
+
+```php
+$obj->topLevelObject->value_being_changed = true; // being false before
+$obj->setDirty('topLevelObject'); // Flag that this field changed
+$obj->save(); // Detects it, updates the database
+```
+
+We could have decided to just resave every property in the document on save, but this is not very performance friendly. For example, if you have a huge document that is 5, 10 or 20mb in size and change only a boolean value for 1 property. Saving just the property is worlds more performant than saving the whole thing again. This is a conscious design decision.
+
+You can opt out of this behaviour by setting the `activerecord_save_whole_object` value in the `database` section in your configuration file. Note that this is set to false by default.
+
+:::warning
+Setting the value to `true` can cause performance issues on big documents. Keep this in mind when using this option.
+:::
+
 ## Fetching a document by id
 
 ```php

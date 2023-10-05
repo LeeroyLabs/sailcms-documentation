@@ -112,3 +112,89 @@ See [Two-Factor Authentication](/security/two-factor.html) section for more deta
 | public | /web/public/`<project>`        |
 
 For more information on how to use and extend Twig, please visit the [website](https://twig.symfony.com/).
+
+
+## Extend the rendering process
+
+SailCMS comes with support for Twig for html, json and csv formats. But you can always extend it by writing your own Renderer. This means that if you don't lile Twig for HTML, you can use any other templating engine like Laravel's Blade engine or Smarty or any other that you wish. You can also add more output types and still use Twig to render it. For Example, here Is an implementation to output XML documents.
+
+```php
+<?php
+ 
+  // Renderer.php in your container or module's root directory 
+  //(filename can be anything)
+  
+namespace YourContainer;
+
+use SailCMS\Contracts\Renderer;
+
+class XMLRenderer implements Renderer
+{
+    public function identifier(): string
+    {
+        return 'xml';
+    }
+
+    public function contentType(): string
+    {
+        return 'Content-Type: text/xml; charset=utf-8';
+    }
+
+    public function useTwig(): bool
+    {
+        return false;
+    }
+
+    public function render(string $template, object $data): string
+    {
+      	// This is just to explain what to do, don't do this!
+        return <<<EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+       	<note>
+          <to>John</to>
+          <From>Bob</from>
+          <heading>Reminder</heading>
+          <body>This is greate XML!</body>
+        </note>
+        EOF;
+    }
+}
+```
+
+As you can see, we implement the `Renderer` contract and provide information about what and how we are rendering.
+
+The `identifier` method is to identify the renderer to use if you wish to use it. This will be explain a bit later. The second method is `contentType` that tells the system what content-type to send back.
+
+ Third is `useTwig`, if this is set to `true` twig will load a twig template and renderer everything for you. This is used when you only want to add a content-type and format to the rendering system. If you set this to false, the `render` method is called by the engine.
+
+### How to tell the engine that your renderer exists
+
+In your container or module's `init` method, you can register your renderer.
+
+```php
+public function init(): void
+{
+    Engine::addRenderer(XMLRenderer::class);
+}
+```
+
+### How to tell the engine to use it on a specific route
+
+To use your renderer on a specific route, you would call the `useRenderer` method.
+
+```php
+$this->response->useRenderer('xml'); 
+// xml is the identifier you set in your renderer class
+```
+
+### Using your custom renderer all the time
+
+If you wish to use your own renderer on all of your routes and files, you can set it's identifier name in your configuration file, under the `templating` property.
+
+```php
+'templating' => [
+    'cache' => false,
+    'vueCompat' => false,
+    'renderer' => 'Twig' // <- your identifier here
+],
+```
