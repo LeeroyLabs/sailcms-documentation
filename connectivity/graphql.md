@@ -31,11 +31,55 @@ done for you.
 
 Once you have defined your queries and mutations, you need to bind them with their php counterpart.
 
-Take this schema:
+### Attributed Linking
 
-```graphql
-mySuperCall(id: ID!): Boolean!
+Attributed linking is the quickest and easiest way to link your GraphQL schema to your application code. Here are 4 examples
+of how it works.
+
+Query Attribute
+```php
+#[Query('myCall')]
+public function myCall(mixed $obj, Collection $args, Context $context): bool
+{
+    return true;
+}
 ```
+
+Mutation Attribute
+```php
+#[Mutation('myCall')]
+public function myMutation(mixed $obj, Collection $args, Context $context): bool
+{
+    return true;
+}
+```
+
+Type Resolver Attribute
+```php
+#[Resolver('myType')]
+public function myType(mixed $obj, Collection $args, Context $context, ResolveInfo $info): mixed
+{
+    return $obj->{$info->fieldName};
+}
+```
+
+Custom (probably Union) Resolver Attribute
+```php
+#[CustomResolver('myUnion')]
+public function myUnion(mixed $obj, Collection $args, Context $context, ResolveInfo $info): mixed
+{
+    if (isset($obj->someField)) {
+        return 'TypeA';
+    } 
+   
+    return 'TypeB';
+}
+```
+
+### Manual Linking
+
+This way of linking your schema and code together is a bit more verbose and can be done from anywhere that is executed
+before the GraphQL engine is started. **We recommend using the attributed linking method**.
 
 In your container or module's `graphql` method, you can define something like this:
 
@@ -43,10 +87,9 @@ In your container or module's `graphql` method, you can define something like th
 GraphQL::addQueryResolver('mySuperCall', MyClass::class, 'myCall');
 ```
 
-And that's it!
+From there you can write your method in the controller. Here are the signatures for all types of resolvers:
 
-Your method's signature should look like this:
-
+Query & Mutation Resolver
 ```php
 public function myCall(mixed $obj, Collection $args, Context $context): bool
 {
@@ -56,24 +99,22 @@ public function myCall(mixed $obj, Collection $args, Context $context): bool
 }
 ```
 
-If you create custom types in your queries or mutations, you need to provide a way to resolve those types. You
-can resolve them directly in your query or mutation but the performance of resolving them only when required is
-lost. To resolve on request, register a resolver to handle that job:
-
+Type Resolver
 ```php
-GraphQL::addResolver('YourType', YourClass::class, 'yourResolverMethod');
+public function myCall(mixed $obj, Collection $args, Context $context, ResolveInfo $info): mixed
+{
+    // do whatever
+
+    return true;
+}
 ```
 
-Your php code for this resolver would look something like this:
-
+Custom Resolver
 ```php
-public function resolver(mixed $obj, Collection $args, Context $context, ResolveInfo $info): mixed
+public function myCall(mixed $obj, Collection $args, Context $context, ResolveInfo $info): mixed
 {
-    if ($info->fieldName === 'name') {
-        return $obj->name->toSimple();
-    }
-
-    return $obj->{$info->fieldName};
+    // Determine 
+    return 'TypeA';
 }
 ```
 

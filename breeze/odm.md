@@ -86,41 +86,6 @@ If you want to keep sensitive information out of json representations, use the `
 Guards are used to protect sensitive information from leaving the cms. That means that whenever a model is encoded to json,
 the fields in the model's `guard` property will be omitted.
 
-## Casting
-
-Breeze offers a more advanced concept that is basically this:
-
-When you store an array or object in MongoDB, it comes back as simple array and object. But most times, you'll want to
-cast an array to `Collection` or an object to one of your custom objects. Breeze does not how to do that unless you tell
-it how.
-
-Enter, Casting. Casting is a property in your model called `casting`. This is an array where you define what should be 
-cast to what type. The type you want it to be casted to must implement the `Castable` interface and implement it's 2
-methods.
-
-Out of the box, Breeze supports `Carbon` (date), `ObjectId` (mongodb id), `string` (for ObjetId), `Collection`, 
-`DateTime` (for integers like timestamps) and `encrypted`.
-
-It's also important to note that the casting is done automatically for you when you fetch records from the database. But
-it's also done automatically when you write, the inverse conversion is done, thanks to the `Castable` interface.
-
-So for example, if your field is cast as `encrypted`, that means that if you fetch a record from the database, it will
-be decrypted for you, if you write a value to the database, it will be encrypted just before being writen to the database.
-So you don't need to encrypt it yourself.
-
-Here is an example of casting:
-
-```php
-class YourModel extends Model
-{
-    protected array $casting = [
-        'keyname' => 'encrypted',
-        'otherkey' => Collection::class,
-        'date' => Carbon::class
-    ];
-}
-```
-
 ## Validators
 
 Validators are used to validate the data before being inserted or updated in the database. For example, you want to
@@ -164,7 +129,6 @@ class MyValidator implements Validator
         // data as is and act like everything was validated.
     }
 }
-
 ```
 
 ## Permission Checking
@@ -252,43 +216,6 @@ $this->find()->skip(5)
              ->sort(['field' => 1])
              ->project(['fieldA' => 1])
              ->exec();
-```
-
-### Populating
-
-Breeze implements a feature that is found in the popular orm `Mongoose` for nodejs, populate. This enables you to populate
-fields that represent an id of another collection without having to do an extra query in your code.
-
-For example, let's take this collection structure and see how we can use populate to save on queries.
-
-```json
-{
-    "_id": "63653ce2fc482bfbb70d4f76",
-    "name": "Apple",
-    "author_id": "634ed5a2af9ad9278209b245",
-    "category_id": "6346e9e988bac135e7018214"
-}
-```
-
-```php
-$this->find([])
-     ->populate('author_id', 'author', User::class)
-     ->populate('category_id', 'category', Category::class)
-     ->exec();
-```
-
-This would add `author` and `category` properties to your returned documents. Don't worry if the value of the field you
-are targeting for population (eg: `author_id`) is empty or null, Breeze will know to not call populate on it. Instead,
-it will create the property and set it to `null`. If you are using this for GraphQL, we suggest having those fields be 
-optional in case a value would be null.
-
-Like Mongoose, Breeze supports nested population. Here is an example of that in action:
-
-```php
-$this->find([])
-     ->populate('something_id', 'something', Something:class, [
-        ['somefield_in_something', 'somefield', SomeField::class]
-     ])->exec();
 ```
 
 ## Caching
@@ -408,6 +335,6 @@ This turns any timestamp into a UTCDateTime object.
 
 This method is there for you to filter out possible bad user input. Even if the database is not SQL, Document Injection is
 a very real thing. To prevent this, use `safe` on the data your want to store, it will make sure it's safe to be used
-in a database call. This method is recursive, that means, all of the input will be sanitized.
+in a database call. This method is recursive, that means, all the input will be sanitized.
 
 __NOTE__: This is to process values, not entire mongodb object/insert/update/delete calls.

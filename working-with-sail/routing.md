@@ -1,5 +1,10 @@
 # Routing <Badge type="tip" text="3.0.0" />
 
+:::info
+If you wish to use a tighter approach and not write so much code. We suggest using 
+[Attribute Routing](/working-with-sail/attribute-routing).
+:::
+
 For example, if you would like your container to provider the `/hello-world` route, you need to put
 the following code in the `routes` method of your container:
 

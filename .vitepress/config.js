@@ -74,6 +74,7 @@ export default defineConfig({
           { text: 'Errors / Debugging', link: '/working-with-sail/errors-and-debugging' },
           { text: 'Logging', link: '/working-with-sail/logging' },
           { text: 'Routing', link: '/working-with-sail/routing' },
+          { text: 'Attribute Routing', link: '/working-with-sail/attribute-routing'},
           { text: 'Dependency Injection', link: '/working-with-sail/di'},
           { text: 'Roles and Permissions', link: '/working-with-sail/roles-acl'},
           { text: 'Storage', link: '/working-with-sail/storage'},
@@ -114,6 +115,8 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: 'ODM', link: '/breeze/odm' },
+          { text: 'Casting', link: '/breeze/casting'},
+          { text: 'Relationships', link: '/breeze/relationships'},
           { text: 'ActiveRecord', link: '/breeze/activerecord' },
           { text: 'Migrations', link: '/breeze/migrations'},
           { text: 'Views', link: '/breeze/views'}
